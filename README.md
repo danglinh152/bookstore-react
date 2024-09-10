@@ -2,11 +2,5 @@
 
 ## Introduction
 
-This project is built using the Spring framework, which follows the Restful API architectural pattern. Spring is a powerful and elegant Java framework that provides a robust set of tools for developing web applications.
+This project is built using the ReactJS framework.
 
-### Technologies Used
-
--   **Spring**: Version 3.3.0
--   **Java**: Version 17
--   **Database**: MySQL
--   **Frontend**: Blade templating engine, HTML, CSS, JavaScript,...
