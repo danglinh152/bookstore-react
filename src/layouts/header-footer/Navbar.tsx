@@ -125,13 +125,11 @@ function Navbar() {
                 </div>
             </div>
 
-
-            <button className="btn btn-dark d-block d-xl-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
+            <button className="btn btn-dark d-block d-xl-none me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#demo">
                 <i className="fa-solid fa-bars"></i>
             </button>
-
         </nav >
-    
+
     );
 }
 
