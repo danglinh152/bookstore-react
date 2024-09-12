@@ -1,5 +1,5 @@
 class Book {
-    private bookId: number;
+    private bookId: string;
     private title?: string;
     private author?: string;
     private isbn?: string;
@@ -9,10 +9,8 @@ class Book {
     private quantity?: number;
     private avgRate?: number;
 
-    private imageUrl?: string;
-
     constructor(
-        bookId: number,
+        bookId: string,
         title?: string,
         author?: string,
         isbn?: string,
@@ -21,7 +19,6 @@ class Book {
         sellingPrice?: number,
         quantity?: number,
         avgRate?: number,
-        imageUrl?: string
     ) {
         this.bookId = bookId;
         this.title = title;
@@ -32,15 +29,13 @@ class Book {
         this.sellingPrice = sellingPrice;
         this.quantity = quantity;
         this.avgRate = avgRate;
-        this.imageUrl = imageUrl;
-
     }
 
-    public getBookId(): number {
+    public getBookId(): string {
         return this.bookId;
     }
 
-    public setBookId(bookId: number): void {
+    public setBookId(bookId: string): void {
         this.bookId = bookId;
     }
 
@@ -108,13 +103,6 @@ class Book {
         this.avgRate = avgRate;
     }
 
-    public getImageUrl(): string | undefined {
-        return this.imageUrl;
-    }
-
-    public setImageUrl(imageUrl: string): void {
-        this.imageUrl = imageUrl;
-    }
 }
 
 export default Book;

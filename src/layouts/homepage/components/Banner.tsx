@@ -4,14 +4,14 @@ import { getAllBooks } from "../../../api/BookAPI";
 import Carousel from "./CarouselProps";
 const Banner: React.FC = () => {
 
-    const [List, setList] = useState<Book[]>([]);
+    const [ListBook, setListBook] = useState<Book[]>([]);
     const [isLoad, setIsLoad] = useState(true);
     const [isError, setIsError] = useState<string | null>(null);
 
     useEffect(() => {
         getAllBooks().then(
             (bookData) => {
-                setList(bookData);
+                setListBook(bookData);
                 setIsLoad(false);
             }
         ).catch(
@@ -51,11 +51,13 @@ const Banner: React.FC = () => {
                 <div style={{ flex: '0 0 50%' }}>
                     <div className="container p-5">
                         <div id="carouselBook" className="carousel slide" data-bs-ride="carousel">
-                            <div className="carousel-inner mx-auto">
+                            <div className="carousel-inner mx-auto" style={{ width: '75%' }}>
                                 {
-                                    < Carousel key={List[0].getBookId()} book={List[0]} />}
+                                    < Carousel key={ListBook[0].getBookId()} book={ListBook[0]} />
+                                }
+
                                 {
-                                    List.slice(1, List.length).map((book) => (
+                                    ListBook.slice(1, ListBook.length).map((book) => (
                                         < Carousel key={book.getBookId()} book={book} />
                                     ))
                                 }
