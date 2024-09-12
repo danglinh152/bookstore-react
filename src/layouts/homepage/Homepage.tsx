@@ -1,11 +1,13 @@
 import React from "react";
 import Banner from "./components/Banner";
-import Carousel from "./components/Carousel";
+import List from "../products/List";
 function Homepage() {
     return (
         <div>
             <Banner />
-            <Carousel />
+            <div className="p-5 my-5">
+                <List />
+            </div>
         </div>
     );
 }
