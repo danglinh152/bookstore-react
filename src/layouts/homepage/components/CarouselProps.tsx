@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import Book from "../../../models/Book";
 import BookProps from "../../products/components/BookProps";
 
 
 const Carousel: React.FC<BookProps> = ({ book }) => {
     if (book.getBookId() === 1) {
         return (
-
             <div className="carousel-item active">
                 <div className="row d-flex">
                     <div className="img-block">
@@ -20,11 +18,9 @@ const Carousel: React.FC<BookProps> = ({ book }) => {
                     </div>
                 </div>
             </div>
-
         )
     }
     return (
-
         <div className="carousel-item">
             <div className="row d-flex">
                 <div className="img-block">
@@ -38,7 +34,6 @@ const Carousel: React.FC<BookProps> = ({ book }) => {
                 </div>
             </div>
         </div>
-
     )
 }
 

@@ -51,9 +51,7 @@ const Banner: React.FC = () => {
                 <div style={{ flex: '0 0 50%' }}>
                     <div className="container p-5">
                         <div id="carouselBook" className="carousel slide" data-bs-ride="carousel">
-
-
-                            <div className="carousel-inner mx-auto" style={{ width: '75%' }}>
+                            <div className="carousel-inner mx-auto">
                                 {
                                     < Carousel key={List[0].getBookId()} book={List[0]} />}
                                 {
