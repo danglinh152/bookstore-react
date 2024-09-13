@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Book from "../../../models/Book";
-import { getAllBooks } from "../../../api/BookAPI";
+import { get3NewBooks, getAllBooks } from "../../../api/BookAPI";
 import Carousel from "./CarouselProps";
 const Banner: React.FC = () => {
 
@@ -9,7 +9,7 @@ const Banner: React.FC = () => {
     const [isError, setIsError] = useState<string | null>(null);
 
     useEffect(() => {
-        getAllBooks().then(
+        get3NewBooks().then(
             (bookData) => {
                 setListBook(bookData);
                 setIsLoad(false);
@@ -52,15 +52,22 @@ const Banner: React.FC = () => {
                     <div className="container p-5">
                         <div id="carouselBook" className="carousel slide" data-bs-ride="carousel">
                             <div className="carousel-inner mx-auto" style={{ width: '75%' }}>
+
                                 {
-                                    < Carousel key={ListBook[0].getBookId()} book={ListBook[0]} />
+                                    <div className="carousel-item active">
+                                        < Carousel key={ListBook[0].getBookId()} book={ListBook[0]} />
+                                    </div>
                                 }
+
 
                                 {
                                     ListBook.slice(1, ListBook.length).map((book) => (
-                                        < Carousel key={book.getBookId()} book={book} />
+                                        <div className="carousel-item">
+                                            < Carousel key={book.getBookId()} book={book} />
+                                        </div>
                                     ))
                                 }
+
                             </div>
                             <button className="carousel-control-prev" type="button" data-bs-target="#carouselBook" data-bs-slide="prev">
                                 <span className="carousel-control-prev-icon" aria-hidden="true"></span>

@@ -1,5 +1,5 @@
 class Book {
-    private bookId: string;
+    private bookId: number;
     private title?: string;
     private author?: string;
     private isbn?: string;
@@ -10,7 +10,7 @@ class Book {
     private avgRate?: number;
 
     constructor(
-        bookId: string,
+        bookId: number,
         title?: string,
         author?: string,
         isbn?: string,
@@ -31,11 +31,11 @@ class Book {
         this.avgRate = avgRate;
     }
 
-    public getBookId(): string {
+    public getBookId(): number {
         return this.bookId;
     }
 
-    public setBookId(bookId: string): void {
+    public setBookId(bookId: number): void {
         this.bookId = bookId;
     }
 

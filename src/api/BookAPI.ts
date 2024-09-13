@@ -1,10 +1,9 @@
 import Book from "../models/Book";
 import { request } from "./request";
 
-export async function getAllBooks(): Promise<Book[]> {
+export async function getBooks(url: string): Promise<Book[]> {
     const result: Book[] = [];
 
-    const url: string = `http://localhost:8080/books`;
     const response = await request(url);
 
     const responseData = response._embedded.books;
@@ -26,3 +25,16 @@ export async function getAllBooks(): Promise<Book[]> {
     return result;
 }
 
+export async function getAllBooks(): Promise<Book[]> {
+
+    const url: string = `http://localhost:8080/books`;
+    return getBooks(url);
+
+}
+
+export async function get3NewBooks(): Promise<Book[]> {
+
+    const url: string = `http://localhost:8080/books?sort=bookId,desc&page=0&size=3`;
+    return getBooks(url);
+
+}
