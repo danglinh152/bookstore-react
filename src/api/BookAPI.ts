@@ -1,7 +1,13 @@
 import Book from "../models/Book";
 import { request } from "./request";
 
-export async function getBooks(url: string): Promise<Book[]> {
+interface Result {
+    result: Book[];
+    totalBooks: number;
+    totalPages: number;
+}
+
+export async function getBooks(url: string): Promise<Result> {
     const result: Book[] = [];
 
     const response = await request(url);
@@ -22,19 +28,25 @@ export async function getBooks(url: string): Promise<Book[]> {
         );
         result.push(book);
     }
-    return result;
+
+    const totalPages = response.page.totalPages;
+    const totalBooks = response.page.totalElements;
+
+    return { result: result, totalBooks: totalBooks, totalPages: totalPages };
 }
 
-export async function getAllBooks(): Promise<Book[]> {
+export async function getAllBooks(currentPage: number): Promise<Result> {
 
-    const url: string = `http://localhost:8080/books`;
+    const url: string = `http://localhost:8080/books?sort=bookId,asc&page=${currentPage - 1}&size=6`;
     return getBooks(url);
 
 }
 
-export async function get3NewBooks(): Promise<Book[]> {
 
-    const url: string = `http://localhost:8080/books?sort=bookId,desc&page=0&size=3`;
+
+export async function get3FirstBooks(): Promise<Result> {
+
+    const url: string = `http://localhost:8080/books?sort=bookId,asc&page=0&size=3`;
     return getBooks(url);
 
 }

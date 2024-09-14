@@ -31,7 +31,7 @@ const BookProps: React.FC<BookProps> = ({ book }) => {
 
     if (isLoad) {
         return (
-            <div>
+            <div className="loading-screen">
                 <h1> Loading... </h1>
             </div>
         )
@@ -43,27 +43,29 @@ const BookProps: React.FC<BookProps> = ({ book }) => {
             </div>
         )
     }
-    
+
 
 
     return (
 
         <div className="col-lg-4 col-md-6">
-            <div className="card mb-5 p-0 w-100">
-                <img className="card-img-top w-100 object-fit-cover" src={ListImage[0].getData()} alt="Card image" style={{ height: '250px' }} />
+            <div className="card mb-5 p-0 w-100" style={{ height: '480px' }}>
+                {ListImage && ListImage.length > 0 ? (<img className="card-img-top w-100 object-fit-cover" src={ListImage[0].getData()} alt="Card image" style={{ height: '250px' }} />
+                ) : (<img className="card-img-top w-100 object-fit-cover" src="./images/image-pending.jpg" alt="Card image" style={{ height: '250px' }} />
+                )}
                 <div className="card-body">
-                    <h4 className="card-title fs-5 fw-bold">{book.getTitle()}</h4>
-                    <p className="card-text">{book.getDescription()}</p>
+                    <h4 className="card-title fs-5 fw-bold line-clamp">{book.getTitle()}</h4>
+                    <p className="card-text line-clamp-desc mb-4" style={{ height: '50px' }}>{book.getDescription()}</p>
                     <div className="d-flex gap-1">
                         <p className="card-text fs-6 text-decoration-line-through fst-italic">{book.getSellingPrice()}$</p>
                         <p className="card-text fs-5 fw-bold">{book.getListPrice()}$</p>
                     </div>
-                    <div className="d-flex">
+                    <div className="d-flex gap-4">
                         <a className="btn btn-danger">
                             <i className="fa-solid fa-heart"></i>
                             <span className="ms-1">Yêu thích</span>
                         </a>
-                        <a className="btn btn-primary ms-auto">
+                        <a className="btn btn-primary">
                             <i className="fa-solid fa-cart-shopping"></i>
                             <span className="ms-1">Thêm vào giỏ</span>
                         </a>

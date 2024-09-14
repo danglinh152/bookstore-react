@@ -27,3 +27,11 @@ export async function getAllImages(bookId: number): Promise<Image[]> {
     return getImages(bookId, url);
 }
 
+export async function get1Images(bookId: number): Promise<Image[]> {
+
+
+    const url: string = `http://localhost:8080/books/${bookId}/listOfImage?sort=bookId,asc&page=0&size=1`;
+
+    return getImages(bookId, url);
+}
+

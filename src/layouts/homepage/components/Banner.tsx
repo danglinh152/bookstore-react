@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Book from "../../../models/Book";
-import { get3NewBooks, getAllBooks } from "../../../api/BookAPI";
+import { get3FirstBooks, getAllBooks } from "../../../api/BookAPI";
 import Carousel from "./CarouselProps";
 const Banner: React.FC = () => {
 
@@ -9,9 +9,9 @@ const Banner: React.FC = () => {
     const [isError, setIsError] = useState<string | null>(null);
 
     useEffect(() => {
-        get3NewBooks().then(
+        get3FirstBooks().then(
             (bookData) => {
-                setListBook(bookData);
+                setListBook(bookData.result);
                 setIsLoad(false);
             }
         ).catch(

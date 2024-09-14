@@ -132,3 +132,54 @@
 .bd-mode-toggle .dropdown-menu .active .bi {
   display: block !important;
 }
+
+/* pagination */
+
+.pagination .page-item .page-link:focus {
+  outline: none;
+  /* Loại bỏ border focus */
+  box-shadow: none;
+  /* Loại bỏ hiệu ứng shadow */
+}
+
+/* loading */
+.loading-screen {
+  position: fixed;
+  /* Đặt vị trí cố định */
+  top: 0;
+  /* Đặt ở trên cùng */
+  left: 0;
+  /* Đặt ở bên trái */
+  width: 100%;
+  /* Chiều rộng 100% */
+  height: 100%;
+  /* Chiều cao 100% */
+  display: flex;
+  /* Sử dụng flexbox */
+  justify-content: center;
+  /* Căn giữa theo chiều ngang */
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+  background-color: red;
+  /* Màu nền với độ trong suốt */
+  z-index: 9999;
+  /* Đảm bảo nó nằm trên cùng các phần tử khác */
+}
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  /* Số dòng tối đa hiển thị */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.line-clamp-desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  /* Số dòng tối đa hiển thị */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
