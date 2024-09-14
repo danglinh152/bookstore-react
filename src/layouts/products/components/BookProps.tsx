@@ -46,7 +46,7 @@ const BookProps: React.FC<BookProps> = ({ book }) => {
 
 
 
-    return (
+    return(
 
         <div className="col-lg-4 col-md-6">
             <div className="card mb-5 p-0 w-100" style={{ height: '480px' }}>

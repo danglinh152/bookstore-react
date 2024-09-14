@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Book from "../../models/Book";
 import BookProps from "./components/BookProps";
-import { getAllBooks } from "../../api/BookAPI";
+import { getAllBooks, getByTitle } from "../../api/BookAPI";
 import { Pagination } from "../utils/Pagination";
-const List: React.FC = () => {
+
+interface List {
+    keyword: string;
+}
+const List: React.FC<List> = (props) => {
 
     const [List, setList] = useState<Book[]>([]);
     const [isLoad, setIsLoad] = useState(true);
@@ -13,27 +17,51 @@ const List: React.FC = () => {
     const [totalBooks, setTotalBooks] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(0);
 
+    const prevKeywordRef = useRef<string>(props.keyword);
+
     const pagination = (page: number) => {
         setCurrentPage(page);
-
     };
 
     useEffect(() => {
-        getAllBooks(currentPage).then(
-            (bookData) => {
-                setList(bookData.result);
-                setTotalBooks(bookData.totalBooks);
-                setTotalPages(bookData.totalPages);
-                setIsLoad(false);
-            }
-        ).catch(
-            (bookData) => {
-                const error = new Error('Error');
-                setIsError(error.message);
-            }
-        )
+        if (props.keyword !== prevKeywordRef.current) {
+            setCurrentPage(1); // Reset to page 1 when keyword changes
+            prevKeywordRef.current = props.keyword; // Update the ref
+        }
 
-    }, [currentPage])
+        setIsLoad(true); // Set loading state
+
+        if (props.keyword.trim() === '') {
+            getAllBooks(currentPage).then(
+                (bookData) => {
+                    setList(bookData.result);
+                    setTotalBooks(bookData.totalBooks);
+                    setTotalPages(bookData.totalPages);
+                    setIsLoad(false);
+                }
+            ).catch(
+                () => {
+                    setIsError('Error fetching books');
+                    setIsLoad(false);
+                }
+            )
+        } else {
+            getByTitle(currentPage, props.keyword).then(
+                (bookData) => {
+                    setList(bookData.result);
+                    setTotalBooks(bookData.totalBooks);
+                    setTotalPages(bookData.totalPages);
+                    setIsLoad(false);
+                }
+            ).catch(
+                () => {
+                    setIsError('Error fetching books');
+                    setIsLoad(false);
+                }
+            )
+        }
+
+    }, [currentPage, props.keyword]) // Keep currentPage and keyword in the dependencies
 
     if (isLoad) {
         return (
@@ -56,18 +84,14 @@ const List: React.FC = () => {
                 {
                     List.map((book) => (
                         <BookProps key={book.getBookId()} book={book} />
-                    )
-                    )
+                    ))
                 }
             </div>
 
-            <Pagination totalPages={totalPages} currentPage={currentPage} pagination={pagination} />
+            <Pagination totalPages={totalPages} currentPage={currentPage} pagination={pagination} totalBooks={totalBooks} />
 
-        </div >
-
+        </div>
     );
-
-
 }
 
 export default List;

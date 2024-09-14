@@ -1,7 +1,17 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
+interface Navbar {
+    keyword: string;
+    setKeyword: (keyword: string) => void;
+}
 
+function Navbar({ keyword, setKeyword }: Navbar) {
+    const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
+        setKeyword(e.target.value);
+    }
 
-function Navbar() {
+    const handleClick = () => {
+        setKeyword(keyword);
+    }
     return (
         <nav className="navbar navbar-expand-xl navbar-dark bg-dark container-fluid">
             <div className="ms-3">
@@ -37,8 +47,8 @@ function Navbar() {
                 </ul>
                 <div className="search-box d-block d-lg-flex ms-3 me-3 ms-lg-auto">
                     <form className="d-flex form-group">
-                        <input type="text" name="" id="" className="form-control me-2" placeholder='Tìm Kiếm' />
-                        <button type="button" className='btn btn-outline-success' typeof='submit'>Search</button>
+                        <input type="text" name="" id="" className="form-control me-2" placeholder='Tìm Kiếm' onInput={handleInput} value={keyword} />
+                        <button type="button" className='btn btn-outline-success' typeof='submit' onClick={handleClick}>Search</button>
                     </form>
 
                     <ul className="navbar-nav mb-2 mb-lg-0 ms-2 me-2 d-none d-lg-block">

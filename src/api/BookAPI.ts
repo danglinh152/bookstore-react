@@ -50,3 +50,11 @@ export async function get3FirstBooks(): Promise<Result> {
     return getBooks(url);
 
 }
+
+export async function getByTitle(currentPage: number, keyword: string): Promise<Result> {
+
+    const url: string = `http://localhost:8080/books/search/findByTitleContaining?title=${keyword}&sort=bookId,asc&page=${currentPage - 1}&size=6`;
+    return getBooks(url);
+
+}
+
