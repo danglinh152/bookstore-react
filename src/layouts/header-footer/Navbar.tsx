@@ -1,4 +1,5 @@
 import React, { ChangeEvent } from "react";
+import { Link } from "react-router-dom";
 interface Navbar {
     keyword: string;
     setKeyword: (keyword: string) => void;
@@ -23,14 +24,14 @@ function Navbar({ keyword, setKeyword }: Navbar) {
             <div className="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul className="navbar-nav ms-3 ms-md-0 mb-2 mb-lg-0 text-nowrap">
                     <li className="nav-item">
-                        <a className="nav-link active" href="#">Trang Chủ</a>
+                        <Link to={'/'} className="nav-link active" >Trang Chủ</Link>
                     </li>
                     <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdown1" href="#">Thể Loại</a>
+                        <Link to={''} className="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdown1">Thể Loại</Link>
                         <ul className="dropdown-menu dropdown-menu-start mt-0" aria-labelledby="navbarDropdown1">
-                            <li className="dropdown-item">Thể Loại 1</li>
-                            <li className="dropdown-item">Thể Loại 2</li>
-                            <li className="dropdown-item">Thể Loại 3</li>
+                            <Link to={'/1'} className="dropdown-item">Thể Loại 1</Link>
+                            <Link to={'/2'} className="dropdown-item">Thể Loại 2</Link>
+                            <Link to={'/3'} className="dropdown-item">Thể Loại 3</Link>
                         </ul>
                     </li>
                     <li className="nav-item dropdown">

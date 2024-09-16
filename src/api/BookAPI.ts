@@ -51,10 +51,25 @@ export async function get3FirstBooks(): Promise<Result> {
 
 }
 
-export async function getByTitle(currentPage: number, keyword: string): Promise<Result> {
+export async function getBookByExpression(currentPage: number, keyword: string, genreId: number): Promise<Result> {
+    let url: string = `http://localhost:8080/books?sort=bookId,asc&page=${currentPage - 1}&size=6`;
 
-    const url: string = `http://localhost:8080/books/search/findByTitleContaining?title=${keyword}&sort=bookId,asc&page=${currentPage - 1}&size=6`;
-    return getBooks(url);
+    if (keyword === '' && genreId === 0) {
+        return getAllBooks(currentPage);
+    }
+    else if (keyword !== '' && genreId === 0) {
+        url = `http://localhost:8080/books/search/findByTitleContaining?title=${keyword}&sort=bookId,asc&page=${currentPage - 1}&size=6`;
+        return getBooks(url);
+    }
+    else if (keyword === '' && genreId > 0) {
+        url = `http://localhost:8080/books/search/findByListOfGenre_GenreId?genreId=${genreId}`;
+        return getBooks(url);
+    }
+    else {
+        url = `http://localhost:8080/books/search/findByTitleContainingAndListOfGenre_GenreId?title=${keyword}&genreId=${genreId}`;
+        return getBooks(url);
+    }
+
 
 }
 

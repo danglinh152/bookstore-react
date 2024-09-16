@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import Book from "../../models/Book";
 import BookProps from "./components/BookProps";
-import { getAllBooks, getByTitle } from "../../api/BookAPI";
+import { getAllBooks, getBookByExpression } from "../../api/BookAPI";
 import { Pagination } from "../utils/Pagination";
 
 interface List {
     keyword: string;
+    genreIdNumber: number;
 }
 const List: React.FC<List> = (props) => {
 
@@ -31,7 +32,7 @@ const List: React.FC<List> = (props) => {
 
         setIsLoad(true); // Set loading state
 
-        if (props.keyword.trim() === '') {
+        if (props.keyword.trim() === '' && props.genreIdNumber === 0) {
             getAllBooks(currentPage).then(
                 (bookData) => {
                     setList(bookData.result);
@@ -45,9 +46,14 @@ const List: React.FC<List> = (props) => {
                     setIsLoad(false);
                 }
             )
-        } else {
-            getByTitle(currentPage, props.keyword).then(
+
+        }
+        else {
+            console.log('cc');
+            getBookByExpression(currentPage, props.keyword, props.genreIdNumber).then(
                 (bookData) => {
+
+
                     setList(bookData.result);
                     setTotalBooks(bookData.totalBooks);
                     setTotalPages(bookData.totalPages);
@@ -61,7 +67,7 @@ const List: React.FC<List> = (props) => {
             )
         }
 
-    }, [currentPage, props.keyword]) // Keep currentPage and keyword in the dependencies
+    }, [currentPage, props.keyword, props.genreIdNumber]) // Keep currentPage and keyword in the dependencies
 
     if (isLoad) {
         return (

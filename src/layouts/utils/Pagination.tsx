@@ -20,17 +20,23 @@ export const Pagination: React.FC<Pagination> = (props) => {
         }
     }
     else if (props.currentPage > 1) {
-        if (props.currentPage === 2) {
-            pageList.push(1);
-            pageList.push(props.currentPage);
-            pageList.push(3);
-            pageList.push(4);
+        if (props.totalPages === props.currentPage) {
+            if (props.currentPage === 2) {
+                pageList.push(props.currentPage - 1);
+                pageList.push(props.currentPage);
+            }
+            else {
+                pageList.push(props.currentPage - 2);
+                pageList.push(props.currentPage - 1);
+                pageList.push(props.currentPage);
+            }
         }
         else if (props.totalPages <= props.currentPage + 1) {
             if (props.totalPages === props.currentPage) {
                 pageList.push(props.currentPage - 1);
                 pageList.push(props.currentPage);
             }
+
             else {
                 pageList.push(props.currentPage - 2);
                 pageList.push(props.currentPage - 1);
@@ -39,11 +45,19 @@ export const Pagination: React.FC<Pagination> = (props) => {
             }
         }
         else {
-            pageList.push(props.currentPage - 2)
-            pageList.push(props.currentPage - 1);
-            pageList.push(props.currentPage);
-            pageList.push(props.currentPage + 1);
-            pageList.push(props.currentPage + 2);
+            if (props.currentPage === 2) {
+                pageList.push(props.currentPage - 1);
+                pageList.push(props.currentPage);
+                pageList.push(props.currentPage + 1);
+                pageList.push(props.currentPage + 2);
+            }
+            else {
+                pageList.push(props.currentPage - 2)
+                pageList.push(props.currentPage - 1);
+                pageList.push(props.currentPage);
+                pageList.push(props.currentPage + 1);
+                pageList.push(props.currentPage + 2);
+            }
         }
     }
 
