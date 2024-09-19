@@ -96,17 +96,23 @@ export function BookDetail() {
                             <p className="line-clamp-desc mb-3">{book?.getDescription()}</p>
                             <div className="d-flex align-items-center gap-1 mb-2">
                                 <p className="line-clamp-desc fw-bold mb-0">{book?.getAvgRate()?.toPrecision(2)}</p>
-                                {
-                                    (() => {
-                                        let avgRate: number;
-                                        avgRate = book.getAvgRate() ?? 0;
-                                        const stars = [];
-                                        while (avgRate--) {
-                                            stars.push(<i className="fa-solid fa-star text-warning"></i>);
+                                <div className="star d-flex">
+
+                                    {(() => {
+                                        const star = [];
+                                        let avgRate = book?.getAvgRate() ?? 0;
+                                        while (avgRate >= 1) {
+                                            star.push(<i className="fa-solid text-warning fa-star"></i>
+                                            )
+                                            avgRate -= 1;
                                         }
-                                        return stars;
-                                    })()
-                                }
+                                        if (avgRate > 0) {
+                                            star.push(<i className="fa-solid fa-star text-warning overflow-hidden" style={{ width: `calc(16.8px * ${0.5})` }}></i>
+                                            )
+                                        }
+                                        return star;
+                                    })()}
+                                </div>
                             </div>
                             <div className="d-flex gap-1">
                                 <p className=" fs-6 text-decoration-line-through fst-italic">{book?.getSellingPrice()}$</p>
