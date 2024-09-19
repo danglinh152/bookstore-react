@@ -19,6 +19,8 @@ const List: React.FC<List> = (props) => {
     const [totalPages, setTotalPages] = useState<number>(0);
 
     const prevKeywordRef = useRef<string>(props.keyword);
+    const genreIdNumberRef = useRef<number>(props.genreIdNumber);
+
 
     const pagination = (page: number) => {
         setCurrentPage(page);
@@ -28,6 +30,11 @@ const List: React.FC<List> = (props) => {
         if (props.keyword !== prevKeywordRef.current) {
             setCurrentPage(1); // Reset to page 1 when keyword changes
             prevKeywordRef.current = props.keyword; // Update the ref
+        }
+
+        if (props.genreIdNumber !== genreIdNumberRef.current) {
+            setCurrentPage(1);
+            genreIdNumberRef.current = props.genreIdNumber; // Update the ref
         }
 
         setIsLoad(true); // Set loading state
@@ -49,11 +56,8 @@ const List: React.FC<List> = (props) => {
 
         }
         else {
-            console.log('cc');
             getBookByExpression(currentPage, props.keyword, props.genreIdNumber).then(
                 (bookData) => {
-
-
                     setList(bookData.result);
                     setTotalBooks(bookData.totalBooks);
                     setTotalPages(bookData.totalPages);

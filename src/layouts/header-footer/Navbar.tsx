@@ -16,9 +16,9 @@ function Navbar({ keyword, setKeyword }: Navbar) {
     return (
         <nav className="navbar navbar-expand-xl navbar-dark bg-dark container-fluid">
             <div className="ms-3">
-                <a href="" className="navbar-brand" style={{ fontWeight: 900, color: 'lightpink' }}>
+                <Link to="/" className="navbar-brand" style={{ fontWeight: 900, color: 'lightpink' }}>
                     <span>Linh's Bookstore</span>
-                </a>
+                </Link>
             </div>
 
             <div className="collapse navbar-collapse" id="collapsibleNavbar">
@@ -27,7 +27,7 @@ function Navbar({ keyword, setKeyword }: Navbar) {
                         <Link to={'/'} className="nav-link active" >Trang Chủ</Link>
                     </li>
                     <li className="nav-item dropdown">
-                        <Link to={''} className="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdown1">Thể Loại</Link>
+                        <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdown1" href="#">Thể Loại</a>
                         <ul className="dropdown-menu dropdown-menu-start mt-0" aria-labelledby="navbarDropdown1">
                             <Link to={'/1'} className="dropdown-item">Thể Loại 1</Link>
                             <Link to={'/2'} className="dropdown-item">Thể Loại 2</Link>

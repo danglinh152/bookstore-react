@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Image from "./../../../models/Image"
 import BookProps from "../../products/components/BookProps";
 import { getAllImages } from "../../../api/ImageAPI";
+import { Link } from "react-router-dom";
 
 
 const Carousel: React.FC<BookProps> = ({ book }) => {
@@ -44,27 +45,31 @@ const Carousel: React.FC<BookProps> = ({ book }) => {
     return (
         <div className="row d-flex">
             {ListImage && ListImage.length > 0 ? (
-                <div className="img-block">
-                    <a href="" className="link">
-                        <img
-                            src={ListImage[0].getData()}
-                            className="d-block w-100 rounded"
-                            alt="Slide 1"
-                            style={{ width: '100%', height: '300px', objectFit: 'cover' }}
-                        />
-                    </a>
-                </div>
+                <Link to={`/book-detail/${book.getBookId()}`}>
+                    <div className="img-block">
+                        <a href="" className="link">
+                            <img
+                                src={ListImage[0].getData()}
+                                className="d-block w-100 rounded"
+                                alt="Slide 1"
+                                style={{ width: '100%', height: '300px', objectFit: 'cover' }}
+                            />
+                        </a>
+                    </div>
+                </Link>
             ) : (
-                <div className="img-block">
-                    <a href="" className="link">
-                        <img
-                            src="./images/image-pending.jpg"
-                            className="d-block w-100 rounded"
-                            alt="Slide 1"
-                            style={{ width: '100%', height: '300px', objectFit: 'cover' }}
-                        />
-                    </a>
-                </div>
+                <Link to={`/book-detail/${book.getBookId()}`}>
+                    <div className="img-block">
+                        <a href="" className="link">
+                            <img
+                                src="./images/image-pending.jpg"
+                                className="d-block w-100 rounded"
+                                alt="Slide 1"
+                                style={{ width: '100%', height: '300px', objectFit: 'cover' }}
+                            />
+                        </a>
+                    </div>
+                </Link>
             )}
             <div className="d-flex flex-column caption text-white justify-content-center align-items-center mt-3">
                 <h2 className="fs-5">{book.getTitle()}</h2>

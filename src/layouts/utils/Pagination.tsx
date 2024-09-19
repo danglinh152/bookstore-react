@@ -15,49 +15,45 @@ export const Pagination: React.FC<Pagination> = (props) => {
             pageList.push(props.currentPage + 1);
             pageList.push(props.currentPage + 2);
         }
-        else if (props.totalPages > props.currentPage) {
+        else if (props.totalPages === props.currentPage + 1) {
             pageList.push(props.currentPage + 1);
         }
     }
-    else if (props.currentPage > 1) {
-        if (props.totalPages === props.currentPage) {
-            if (props.currentPage === 2) {
-                pageList.push(props.currentPage - 1);
-                pageList.push(props.currentPage);
-            }
-            else {
-                pageList.push(props.currentPage - 2);
-                pageList.push(props.currentPage - 1);
-                pageList.push(props.currentPage);
-            }
+    else if (props.currentPage === 2) {
+        if (props.totalPages === 2) {
+            pageList.push(props.currentPage - 1);
+            pageList.push(props.currentPage);
         }
-        else if (props.totalPages <= props.currentPage + 1) {
-            if (props.totalPages === props.currentPage) {
-                pageList.push(props.currentPage - 1);
-                pageList.push(props.currentPage);
-            }
-
-            else {
-                pageList.push(props.currentPage - 2);
-                pageList.push(props.currentPage - 1);
-                pageList.push(props.currentPage);
-                pageList.push(props.currentPage + 1);
-            }
+        else if (props.totalPages > props.currentPage + 1) {
+            pageList.push(props.currentPage - 1);
+            pageList.push(props.currentPage);
+            pageList.push(props.currentPage + 1);
+            pageList.push(props.currentPage + 2);
         }
-        else {
-            if (props.currentPage === 2) {
-                pageList.push(props.currentPage - 1);
-                pageList.push(props.currentPage);
-                pageList.push(props.currentPage + 1);
-                pageList.push(props.currentPage + 2);
-            }
-            else {
-                pageList.push(props.currentPage - 2)
-                pageList.push(props.currentPage - 1);
-                pageList.push(props.currentPage);
-                pageList.push(props.currentPage + 1);
-                pageList.push(props.currentPage + 2);
-            }
+        else if (props.totalPages === props.currentPage + 1) {
+            pageList.push(props.currentPage - 1);
+            pageList.push(props.currentPage);
+            pageList.push(props.currentPage + 1);
+        }
+    }
+    else {
+        if (props.totalPages > props.currentPage + 1) {
+            pageList.push(props.currentPage - 2);
+            pageList.push(props.currentPage - 1);
+            pageList.push(props.currentPage);
+            pageList.push(props.currentPage + 1);
+            pageList.push(props.currentPage + 2);
+        }
+        else if (props.totalPages === props.currentPage + 1) {
+            pageList.push(props.currentPage - 2);
+            pageList.push(props.currentPage - 1);
+            pageList.push(props.currentPage);
+            pageList.push(props.currentPage + 1);
+        }
+        else if (props.currentPage === props.totalPages) {
+            pageList.push(props.currentPage - 2);
+            pageList.push(props.currentPage - 1);
+            pageList.push(props.currentPage);
         }
     }
 

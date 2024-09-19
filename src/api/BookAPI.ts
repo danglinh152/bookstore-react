@@ -24,7 +24,7 @@ export async function getBooks(url: string): Promise<Result> {
             bookData.listPrice,
             bookData.sellingPrice,
             bookData.quantity,
-            bookData.avgRate,
+            bookData.avgRate
         );
         result.push(book);
     }
@@ -62,14 +62,41 @@ export async function getBookByExpression(currentPage: number, keyword: string, 
         return getBooks(url);
     }
     else if (keyword === '' && genreId > 0) {
-        url = `http://localhost:8080/books/search/findByListOfGenre_GenreId?genreId=${genreId}`;
+        url = `http://localhost:8080/books/search/findByListOfGenre_GenreId?genreId=${genreId}&sort=bookId,asc&page=${currentPage - 1}&size=6`;
         return getBooks(url);
     }
     else {
-        url = `http://localhost:8080/books/search/findByTitleContainingAndListOfGenre_GenreId?title=${keyword}&genreId=${genreId}`;
+        url = `http://localhost:8080/books/search/findByTitleContainingAndListOfGenre_GenreId?title=${keyword}&genreId=${genreId}&sort=bookId,asc&page=${currentPage - 1}&size=6`;
         return getBooks(url);
     }
+}
+
+export async function getBookByBookId(bookId: number): Promise<Book | undefined> {
+
+    try {
+        const response = await request(`http://localhost:8080/books/${bookId}`);
 
 
+        if (response) {
+            const result: Book = new Book(
+                response.bookId,
+                response.title,
+                response.author,
+                response.isbn,
+                response.description,
+                response.listPrice,
+                response.sellingPrice,
+                response.quantity,
+                response.avgRate
+            );
+            return result;
+            // return undefined;
+        }
+        else {
+            throw new Error('Not Found');
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
 
