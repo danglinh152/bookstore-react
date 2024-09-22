@@ -93,7 +93,9 @@ const List: React.FC<List> = (props) => {
             <div className="row">
                 {
                     List.map((book) => (
-                        <BookProps key={book.getBookId()} book={book} />
+                        <div className="col-lg-4 col-md-6">
+                            <BookProps key={book.getBookId()} book={book} />
+                        </div>
                     ))
                 }
             </div>

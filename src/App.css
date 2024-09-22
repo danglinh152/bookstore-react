@@ -183,3 +183,26 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+
+.container-desc {
+  position: relative;
+  overflow: hidden;
+}
+
+.desc-block {
+  position: relative;
+  z-index: 1;
+  /* Để đảm bảo nội dung nằm trên pseudo-element */
+}
+
+.container-desc::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(rgba(255, 255, 255, 0), rgb(255, 255, 255));
+  z-index: 0;
+}

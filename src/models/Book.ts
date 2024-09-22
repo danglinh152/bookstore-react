@@ -4,6 +4,8 @@ class Book {
     private author?: string;
     private isbn?: string;
     private description?: string;
+    private descriptionDetails?: string;
+    private infoDetails?: string;
     private listPrice?: number;
     private sellingPrice?: number;
     private quantity?: number;
@@ -15,6 +17,8 @@ class Book {
         author?: string,
         isbn?: string,
         description?: string,
+        descriptionDetails?: string,
+        infoDetails?: string,
         listPrice?: number,
         sellingPrice?: number,
         quantity?: number,
@@ -25,6 +29,8 @@ class Book {
         this.author = author;
         this.isbn = isbn;
         this.description = description;
+        this.descriptionDetails = descriptionDetails;
+        this.infoDetails = infoDetails;
         this.listPrice = listPrice;
         this.sellingPrice = sellingPrice;
         this.quantity = quantity;
@@ -69,6 +75,20 @@ class Book {
 
     public setDescription(description: string): void {
         this.description = description;
+    }
+    public getDescriptionDetails(): string | undefined {
+        return this.descriptionDetails;
+    }
+
+    public setInfoDetails(infoDetails: string): void {
+        this.infoDetails = infoDetails;
+    }
+    public getInfoDetails(): string | undefined {
+        return this.infoDetails;
+    }
+
+    public setDescriptionDetails(descriptionDetails: string): void {
+        this.descriptionDetails = descriptionDetails;
     }
 
     public getListPrice(): number | undefined {
