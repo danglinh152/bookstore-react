@@ -206,3 +206,15 @@
   background: linear-gradient(rgba(255, 255, 255, 0), rgb(255, 255, 255));
   z-index: 0;
 }
+
+.carousel-details .img-block:hover {
+  cursor: pointer;
+}
+
+
+.sticky-element {
+  position: sticky;
+  top: 0;
+  /* Adjusts the distance from the top */
+  /* No z-index needed */
+}

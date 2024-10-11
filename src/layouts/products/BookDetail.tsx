@@ -26,7 +26,6 @@ export function BookDetail() {
     const [quantity, setQuantity] = useState<number>(1);
     const [total, setTotal] = useState<number>(0);
     const [listBook, setListBook] = useState<Book[]>([]);
-    const [listImage, setListImage] = useState<Image[] | undefined>();
     const [isLoad, setIsLoad] = useState<boolean>(true);
     const [isError, setIsError] = useState<string | null>(null);
     const [expand, setExpand] = useState<boolean>(false);
@@ -67,17 +66,7 @@ export function BookDetail() {
             }
         )
 
-        getAllImages(bookId).then(
-            (imageData) => {
-                setListImage(imageData);
-                setIsLoad(false);
-            }
-        ).catch(
-            (imageData) => {
-                const error = new Error('Error');
-                setIsError(error.message);
-            }
-        )
+
 
     }, [bookId, currentPage]);
 
@@ -205,9 +194,7 @@ export function BookDetail() {
                 <div className="row">
                     <div className="col-9 row">
                         <div className="row mb-3">
-                            <div className="col-4 p-2 rounded bg-white sticky-top" style={{ maxHeight: '590px' }}>
-                                <img className="object-fit-cover rounded w-100" src={listImage && listImage.length > 0 ? listImage[0].getData() : ""}
-                                    alt="Card image" style={{ height: '350px' }} />
+                            <div className="col-4 p-2 rounded bg-white sticky-element" style={{ maxHeight: '590px' }}>
 
                                 <div className="imageBook mt-2">
                                     <BookImages bookId={bookId} />
@@ -329,21 +316,21 @@ export function BookDetail() {
                                     </div>
                                     <div className="col-8 support border-start">
                                         <h2 className="fs-6">Tổng hợp các đánh giá mới nhất</h2>
-                                        <h2 className="fs-6">Về sản phẩm</h2>
-                                        <p className="m-0">cc</p>
-                                        <p className="m-0">cc</p>
-                                        <p className="m-0">cc</p>
-                                        <h2 className="fs-6 mt-3">Về dịch vụ</h2>
-                                        <p className="m-0">cc</p>
-                                        <p className="m-0">cc</p>
-                                        <p className="m-0">cc</p>
+                                        {(() => {
+                                            const paragraph = [];
+                                            for (let i = 0; i < (parseInt(book?.getAvgRate() + '')) ?? 0; i++) {
+                                                paragraph.push(<p>{book?.getDescription() ?? ''}</p>);
+                                            }
+                                            return paragraph;
+                                        })()
+                                        }
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="col-3 d-flex flex-column gap-2 bg-white rounded p-2 sticky-top" style={{ height: '370px' }}>
+                    <div className="col-3 d-flex flex-column gap-2 bg-white rounded p-2 sticky-element" style={{ height: '370px' }}>
 
                         <div className="d-flex gap-3 align-items-center">
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Image from "../../../models/Image";
 import { getAllImages } from "../../../api/ImageAPI";
 
@@ -6,13 +6,15 @@ interface BookImagesInterface {
     bookId: number;
 }
 const BookImages: React.FC<BookImagesInterface> = ({ bookId }) => {
-    const [ListImage, setListImage] = useState<Image[]>([]);
+    const [listImage, setListImage] = useState<Image[]>([]);
+    const [imageIcon, setImageIcon] = useState<Image>();
     const [isLoad, setIsLoad] = useState(true);
     const [isError, setIsError] = useState<string | null>(null);
     useEffect(() => {
         getAllImages(bookId).then(
             (imageData) => {
                 setListImage(imageData);
+                setImageIcon(imageData[0]);
                 setIsLoad(false);
             }
         ).catch(
@@ -21,6 +23,7 @@ const BookImages: React.FC<BookImagesInterface> = ({ bookId }) => {
                 setIsError(error.message);
             }
         )
+
 
     }, [bookId])
 
@@ -38,29 +41,55 @@ const BookImages: React.FC<BookImagesInterface> = ({ bookId }) => {
             </div>
         )
     }
+
+    const clickBookImage = (index: number) => {
+        setImageIcon(listImage[index]);
+    }
+
     return (
-        <div className="row gap-3 flex-nowrap pb-2" style={{overflowX: 'auto', overflowY: 'hidden'}}>
-            {ListImage && ListImage.length > 0 ? (
-                ListImage.map((image, index) => (
-                    <div className="col-2" key={index}>
+        <div>
+            <div>
+                <img className="object-fit-cover rounded w-100"
+                    src={(() => {
+                        if (listImage && listImage.length > 0) {
+                            if (imageIcon) {
+                                return imageIcon.getData();
+                            }
+                            else {
+                                return listImage[0].getData();
+                            }
+                        }
+                        else {
+                            return "./images/image-pending.jpg";
+                        }
+                    })()}
+                    alt="Card image" style={{ height: '350px' }} />
+            </div>
+
+            <div className="carousel-details mt-2 row gap-3 flex-nowrap pb-2" style={{ overflowX: 'auto', overflowY: 'hidden' }}>
+                {listImage && listImage.length > 0 ? (
+                    listImage.map((image, index) => (
+                        <div className="col-2 img-block" key={index}>
+                            <img
+                                className="object-fit-cover rounded"
+                                src={image.getData()}
+                                alt="Card image"
+                                style={{ height: '50px', width: '50px' }}
+                                onClick={() => clickBookImage(index)}
+                            />
+                        </div>
+                    ))
+                ) : (
+                    <div className="col-2" >
                         <img
                             className="object-fit-cover rounded"
-                            src={image.getData()}
+                            src="./images/image-pending.jpg"
                             alt="Card image"
                             style={{ height: '50px', width: '50px' }}
                         />
                     </div>
-                ))
-            ) : (
-                <div className="col-2" >
-                    <img
-                        className="object-fit-cover rounded"
-                        src="./images/image-pending.jpg"
-                        alt="Card image"
-                        style={{ height: '50px', width: '50px' }}
-                    />
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 

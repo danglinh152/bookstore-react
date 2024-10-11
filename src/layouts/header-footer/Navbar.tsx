@@ -37,13 +37,13 @@ function Navbar({ keyword, setKeyword }: Navbar) {
                     <li className="nav-item dropdown">
                         <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdown2" href="#">Quy Định Bán Hàng</a>
                         <ul className="dropdown-menu dropdown-menu-start mt-0" aria-labelledby="navbarDropdown2">
-                            <li className="dropdown-item">Quy Định 1</li>
-                            <li className="dropdown-item">Quy Định 2</li>
-                            <li className="dropdown-item">Quy Định 3</li>
+                            <Link to={'/rule/1'} className="dropdown-item">Quy Định 1</Link>
+                            <Link to={'/rule/2'} className="dropdown-item">Quy Định 2</Link>
+                            <Link to={'/rule/3'} className="dropdown-item">Quy Định 3</Link>
                         </ul>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Liên Hệ</a>
+                        <Link className="nav-link" to={'/contact'}>Liên Hệ</Link>
                     </li>
                 </ul>
                 <div className="search-box d-block d-lg-flex ms-3 me-3 ms-lg-auto">
@@ -64,8 +64,8 @@ function Navbar({ keyword, setKeyword }: Navbar) {
                         <li className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdown3" href="#"><i className="fa-solid fa-user"></i></a>
                             <ul className="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="navbarDropdown3">
-                                <li className="dropdown-item">Hồ Sơ</li>
-                                <li className="dropdown-item">Đăng Xuất</li>
+                                <Link to={'/profile'} className="dropdown-item">Hồ Sơ</Link>
+                                <Link to={'/login'} className="dropdown-item">Đăng Nhập</Link>
                             </ul>
                         </li>
                     </ul>
