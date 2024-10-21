@@ -15,8 +15,6 @@ import Contact from './layouts/contacts/Contact';
 function App() {
   const [keyword, setKeyword] = useState('');
 
-
-
   return (
     <div style={{ background: '#f5f5fa' }}>
       <BrowserRouter>
@@ -39,10 +37,7 @@ function App() {
           <Route path='rule/:ruleNum' element={<Rule />} />
 
           <Route path='contact' element={<Contact />} />
-
-
-
-
+          
         </Routes>
         <Footer />
 

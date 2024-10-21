@@ -1,4 +1,3 @@
-import React from "react";
 import Banner from "./components/Banner";
 import List from "../products/List";
 import { useParams } from "react-router-dom";

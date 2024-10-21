@@ -7,6 +7,7 @@ import { getAllImages } from "../../api/ImageAPI";
 import BookRecommend from "./components/BookRecommend";
 import { PaginationRecommend } from "../utils/PaginationRecommend";
 import BookImages from "./components/BookImages";
+import BookFeedbacks from "./components/BookFeedbacks";
 
 
 export function BookDetail() {
@@ -235,8 +236,8 @@ export function BookDetail() {
                                         </div>
                                     </div>
                                     <div className="d-flex gap-1">
-                                        <p className=" fs-6 text-decoration-line-through fst-italic">{book?.getSellingPrice()}$</p>
-                                        <p className=" fs-5 fw-bold">{book?.getListPrice()}$</p>
+                                        <p className=" fs-6 text-decoration-line-through fst-italic">{book?.getListPrice()}$</p>
+                                        <p className=" fs-5 fw-bold">{book?.getSellingPrice()}$</p>
                                     </div>
                                     <div className="d-flex gap-4">
                                         <a className="btn btn-danger">
@@ -316,14 +317,7 @@ export function BookDetail() {
                                     </div>
                                     <div className="col-8 support border-start">
                                         <h2 className="fs-6">Tổng hợp các đánh giá mới nhất</h2>
-                                        {(() => {
-                                            const paragraph = [];
-                                            for (let i = 0; i < (parseInt(book?.getAvgRate() + '')) ?? 0; i++) {
-                                                paragraph.push(<p>{book?.getDescription() ?? ''}</p>);
-                                            }
-                                            return paragraph;
-                                        })()
-                                        }
+                                        <BookFeedbacks bookId={book.getBookId()}/>
                                     </div>
                                 </div>
                             </div>

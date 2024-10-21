@@ -59,8 +59,8 @@ const BookRecommend: React.FC<BookProps> = ({ book }) => {
                 <Link to={`/book-detail/${book.getBookId()}`} className="text-decoration-none text-black">
                     <h4 className="card-title fs-6 fw-bold line-clamp mb-2">{book.getTitle()}</h4>
                     <div className="d-flex gap-1">
-                        <p className="card-text text-decoration-line-through fst-italic">{book.getSellingPrice()}$</p>
-                        <p className="card-text fw-bold">{book.getListPrice()}$</p>
+                        <p className="card-text text-decoration-line-through fst-italic">{book.getListPrice()}$</p>
+                        <p className="card-text fw-bold">{book.getSellingPrice()}$</p>
                     </div>
                 </Link>
             </div>
