@@ -1,6 +1,6 @@
 import React from "react";
 
-const Login = function () {
+const Login : React.FC = () => {
     return (
         <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
             <form className="w-50 d-flex flex-column gap-3">

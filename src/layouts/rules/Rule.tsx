@@ -11,8 +11,8 @@ function Rule() {
     }, [reqParam.ruleNum]);
 
     return (
-        <div className="container-fluid bg-light text-dark p-5">
-            <div className="container p-5">
+        <div className="container-fluid bg-warning text-dark p-5">
+            <div className="container bg-dark p-5">
                 {reqNum !== null && <RuleProps reqNum={reqNum} />}
             </div>
         </div>

@@ -5,7 +5,8 @@ interface Navbar {
     setKeyword: (keyword: string) => void;
 }
 
-function Navbar({ keyword, setKeyword }: Navbar) {
+const Navbar: React.FC<Navbar> = ({keyword,setKeyword}) => {
+
     const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
         setKeyword(e.target.value);
     }
