@@ -10,6 +10,7 @@ import Login from './layouts/user/Login';
 import Profile from './layouts/user/Profile';
 import Rule from './layouts/rules/Rule';
 import Contact from './layouts/contacts/Contact';
+import Register from './layouts/user/Register';
 
 
 function App() {
@@ -33,6 +34,8 @@ function App() {
           <Route path='login' element={<Login />} />
 
           <Route path='profile' element={<Profile />} />
+
+          <Route path='register' element={<Register />} />
 
           <Route path='rule/:ruleNum' element={<Rule />} />
 

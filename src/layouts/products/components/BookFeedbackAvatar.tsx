@@ -30,9 +30,8 @@ const BookFeedbackAvatar: React.FC<BookFeedbackAvatarInterface> = ({
         className="rounded-circle"
         style={{ maxHeight: "30px", width: "30px" }}
       />
-      <span className="sfs-6 fw-bold">
-        {" "}
-        {user?.getFirstName()} {user?.getLastName()}{" "}
+      <span className="fs-6 fw-bold">
+        {user?.getFirstName()} {user?.getLastName()}
       </span>
     </div>
   );

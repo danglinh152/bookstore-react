@@ -218,3 +218,11 @@
   /* Adjusts the distance from the top */
   /* No z-index needed */
 }
+
+.fa-solid.fa-arrow-right{
+  font-size: 1.3rem;
+}
+
+.fa-solid.fa-arrow-right:hover {
+  color: grey;
+}

@@ -65,6 +65,7 @@ function Navbar({ keyword, setKeyword }: Navbar) {
                             <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" id="navbarDropdown3" href="#"><i className="fa-solid fa-user"></i></a>
                             <ul className="dropdown-menu dropdown-menu-end mt-1" aria-labelledby="navbarDropdown3">
                                 <Link to={'/profile'} className="dropdown-item">Hồ Sơ</Link>
+                                <Link to={'/register'} className="dropdown-item">Đăng Ký</Link>
                                 <Link to={'/login'} className="dropdown-item">Đăng Nhập</Link>
                             </ul>
                         </li>
