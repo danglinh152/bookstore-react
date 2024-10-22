@@ -8,9 +8,9 @@ export async function getImages(bookId: number, url: string): Promise<Image[]> {
 
     for (const imageData of responseData) {
         const image = new Image(
-            imageData.getImageId,
+            imageData.imageId,
             imageData.name,
-            imageData.isIcon,
+            imageData.icon,
             imageData.path,
             imageData.data
         );

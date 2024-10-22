@@ -19,8 +19,7 @@ const BookFeedbackAvatar: React.FC<BookFeedbackAvatarInterface> = ({
         const errorMsg = new Error(error);
       });
   }, [feedbackId]);
-  console.log(feedbackId);
-  console.log(user);
+
 
   return (
     <div className="d-flex gap-2 align-items-center">
