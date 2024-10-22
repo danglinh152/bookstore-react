@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Book from "../../../models/Book";
-import { get3FirstBooks, getAllBooks } from "../../../api/BookAPI";
+import { get3FirstBooks } from "../../../api/BookAPI";
 import Carousel from "./CarouselProps";
+
 const Banner: React.FC = () => {
   const [ListBook, setListBook] = useState<Book[]>([]);
   const [isLoad, setIsLoad] = useState(true);
@@ -64,6 +65,8 @@ const Banner: React.FC = () => {
               id="carouselBook"
               className="carousel slide"
               data-bs-ride="carousel"
+              data-bs-interval="2000" // tự động chuyển slide sau 2 giây
+              data-bs-pause="hover" // dừng carousel khi hover (tuỳ chọn)
             >
               <div className="carousel-inner mx-auto" style={{ width: "75%" }}>
                 {(() => {

@@ -1,14 +1,14 @@
-class Book {
+class Image {
     private imageId: number;
     private name?: string;
-    private isIcon?: string;
+    private isIcon?: boolean;
     private path?: string;
     private data?: string;
 
     constructor(
         imageId: number,
         name?: string,
-        isIcon?: string,
+        isIcon?: boolean,
         path?: string,
         data?: string
     ) {
@@ -38,11 +38,11 @@ class Book {
     }
 
     // Getter and Setter for isIcon
-    public getIsIcon(): string | undefined {
+    public getIsIcon(): boolean | undefined {
         return this.isIcon;
     }
 
-    public setIsIcon(isIcon: string | undefined): void {
+    public setIsIcon(isIcon: boolean | undefined): void {
         this.isIcon = isIcon;
     }
 
@@ -65,4 +65,4 @@ class Book {
     }
 }
 
-export default Book;
+export default Image;
