@@ -1,6 +1,7 @@
-import { error } from "console";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register: React.FC = () => {
   const [gender, setGender] = useState<string>("");
@@ -14,6 +15,8 @@ const Register: React.FC = () => {
   const [buyingAddress, setBuyingAddress] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [shippingAddress, setShippingAddress] = useState<string>("");
+
+  const navigate = useNavigate(); // Hook để điều hướng
 
   const handleGenderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setGender(event.target.value);
@@ -34,10 +37,69 @@ const Register: React.FC = () => {
     }
   };
 
+  const handleUsername = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newUsername = event.target.value;
+    setUserName(newUsername);
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/users/search/existsByUsername?username=${newUsername}`
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to reach the server: ${response.statusText}`);
+      }
+
+      const data = await response.json(); // Đợi dữ liệu JSON từ phản hồi
+
+      const userErrorMsg = document.getElementById("usernameerrormsg");
+
+      if (userErrorMsg) {
+        // Nếu username đã tồn tại, hiển thị thông báo lỗi
+        if (data === true) {
+          userErrorMsg.style.display = "block";
+        } else {
+          userErrorMsg.style.display = "none";
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching username:", error);
+    }
+  };
+
+  const handleEmail = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newEmail = event.target.value;
+    setEmail(newEmail);
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/users/search/existsByEmail?email=${newEmail}`
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to reach the server: ${response.statusText}`);
+      }
+
+      const data = await response.json(); // Đợi dữ liệu JSON từ phản hồi
+
+      const emailErrorMsg = document.getElementById("emailerrormsg");
+
+      if (emailErrorMsg) {
+        // Nếu username đã tồn tại, hiển thị thông báo lỗi
+        if (data === true) {
+          emailErrorMsg.style.display = "block";
+        } else {
+          emailErrorMsg.style.display = "none";
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching email:", error);
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Hàm chuyển đổi tệp avatar thành chuỗi base64
     const convertToBase64 = (file: File): Promise<string> => {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -47,18 +109,16 @@ const Register: React.FC = () => {
       });
     };
 
-    // Kiểm tra nếu có avatar thì chuyển đổi nó sang base64
     let avatarBase64 = "";
     if (avatar) {
       try {
-        avatarBase64 = await convertToBase64(avatar); // Chuyển đổi avatar thành base64
+        avatarBase64 = await convertToBase64(avatar);
       } catch (error) {
         console.error("Error converting avatar to base64:", error);
         return;
       }
     }
 
-    // Prepare the data for the API request, including avatar as base64 string
     const userData = {
       avatar: avatarBase64,
       firstName: firstName,
@@ -72,33 +132,40 @@ const Register: React.FC = () => {
       shippingAddress: shippingAddress,
     };
 
-    console.log(JSON.stringify(userData));
-
     try {
       const response = await fetch("http://localhost:8080/account/register", {
         method: "POST",
         headers: {
-          "Content-type": "application/json", // specify the content type
+          "Content-type": "application/json",
         },
-        body: JSON.stringify(userData), // send the data as JSON
+        body: JSON.stringify(userData),
       });
 
       if (response.ok) {
-        const result = await response.json();
-        console.log("User registered successfully:", result);
-        // Handle success, e.g., redirect to a login page or display a success message
-      } else {
-        console.error("Failed to register user.");
+        toast.success("Registration successful! Navigating to Login page", {
+          autoClose: 1900,
+        });
 
-        // Handle errors, e.g., display an error message
+        // Chuyển hướng sang trang đăng nhập sau khi đăng ký thành công
+        setTimeout(() => {
+          navigate("/login"); // Chuyển hướng người dùng sang trang đăng nhập
+        }, 2000); // Đợi 2 giây để hiển thị thông báo trước khi chuyển hướng
+      } else {
+        toast.error("Registration failed. Please try again.", {
+          autoClose: 2000,
+        });
       }
     } catch (error) {
       console.error("An error occurred while registering the user:", error);
+      toast.error("An error occurred. Please try again.", {
+        autoClose: 2000,
+      });
     }
   };
 
   return (
     <div className="container-fluid bg-white">
+      <ToastContainer /> {/* This will display the toast notifications */}
       <div
         className="container d-flex align-items-center justify-content-center"
         style={{ height: "900px" }}
@@ -125,8 +192,16 @@ const Register: React.FC = () => {
                   placeholder="User name"
                   style={{ border: "none", boxShadow: "none", width: "450px" }}
                   value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
+                  onChange={handleUsername}
                 />
+                <p
+                  id="usernameerrormsg"
+                  className="text-danger ms-1"
+                  style={{ display: "none" }}
+                >
+                  {" "}
+                  *This username is exists{" "}
+                </p>
               </div>
               <div className="form-outline mb-5">
                 <input
@@ -136,8 +211,16 @@ const Register: React.FC = () => {
                   placeholder="Email address"
                   style={{ border: "none", boxShadow: "none", width: "450px" }}
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleEmail}
                 />
+                <p
+                  id="emailerrormsg"
+                  className="text-danger ms-1"
+                  style={{ display: "none" }}
+                >
+                  {" "}
+                  *This email is exists{" "}
+                </p>
               </div>
               <div className="form-outline mb-5">
                 <input

@@ -1,8 +1,4 @@
-import React, {
-  ChangeEvent,
-  useEffect,
-  useState,
-} from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getAllBooks, getBookByBookId } from "../../api/BookAPI";
 import Book from "../../models/Book";
@@ -140,8 +136,6 @@ export function BookDetail() {
 
         // Thêm CSS cho pseudo-element
         if (style) {
-          console.log("ok");
-
           style.sheet?.insertRule(
             `
                         .container-desc::before {
