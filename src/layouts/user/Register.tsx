@@ -15,6 +15,8 @@ const Register: React.FC = () => {
   const [buyingAddress, setBuyingAddress] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [shippingAddress, setShippingAddress] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
   const navigate = useNavigate(); // Hook để điều hướng
 
@@ -58,12 +60,14 @@ const Register: React.FC = () => {
         // Nếu username đã tồn tại, hiển thị thông báo lỗi
         if (data === true) {
           userErrorMsg.style.display = "block";
+          setError(true);
         } else {
           userErrorMsg.style.display = "none";
         }
       }
     } catch (error) {
       console.error("Error fetching username:", error);
+      setError(true);
     }
   };
 
@@ -88,17 +92,20 @@ const Register: React.FC = () => {
         // Nếu username đã tồn tại, hiển thị thông báo lỗi
         if (data === true) {
           emailErrorMsg.style.display = "block";
+          setError(true);
         } else {
           emailErrorMsg.style.display = "none";
         }
       }
     } catch (error) {
       console.error("Error fetching email:", error);
+      setError(true);
     }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
 
     const convertToBase64 = (file: File): Promise<string> => {
       return new Promise((resolve, reject) => {
@@ -115,6 +122,7 @@ const Register: React.FC = () => {
         avatarBase64 = await convertToBase64(avatar);
       } catch (error) {
         console.error("Error converting avatar to base64:", error);
+        setError(true);
         return;
       }
     }
@@ -143,249 +151,312 @@ const Register: React.FC = () => {
 
       if (response.ok) {
         toast.success("Registration successful! Navigating to Login page", {
-          autoClose: 1900,
+          autoClose: 1000,
         });
-
-        // Chuyển hướng sang trang đăng nhập sau khi đăng ký thành công
-        setTimeout(() => {
-          navigate("/login"); // Chuyển hướng người dùng sang trang đăng nhập
-        }, 2000); // Đợi 2 giây để hiển thị thông báo trước khi chuyển hướng
+        setTimeout(() => navigate("/login"), 1500);
       } else {
-        toast.error("Registration failed. Please try again.", {
-          autoClose: 2000,
-        });
+        const errorData = await response.json(); // Get error details
+        setError(true);
+        toast.error(
+          `Registration failed: ${errorData.message || "Please try again."}`,
+          {
+            autoClose: 2000,
+          }
+        );
       }
     } catch (error) {
       console.error("An error occurred while registering the user:", error);
+      setError(true);
       toast.error("An error occurred. Please try again.", {
         autoClose: 2000,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="container-fluid bg-white">
       <ToastContainer /> {/* This will display the toast notifications */}
-      <div
-        className="container d-flex align-items-center justify-content-center"
-        style={{ height: "900px" }}
-      >
-        <form style={{ width: "80%" }} onSubmit={handleSubmit}>
-          <div className="row">
-            <div className="col-6">
-              <div className="form-outline mb-5">
-                <input
-                  type="text"
-                  id="firstName"
-                  className="form-control border-bottom"
-                  placeholder="First name"
-                  style={{ border: "none", boxShadow: "none", width: "450px" }}
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                />
-              </div>
-              <div className="form-outline mb-5">
-                <input
-                  type="text"
-                  id="userName"
-                  className="form-control border-bottom"
-                  placeholder="User name"
-                  style={{ border: "none", boxShadow: "none", width: "450px" }}
-                  value={userName}
-                  onChange={handleUsername}
-                />
-                <p
-                  id="usernameerrormsg"
-                  className="text-danger ms-1"
-                  style={{ display: "none" }}
-                >
-                  {" "}
-                  *This username is exists{" "}
-                </p>
-              </div>
-              <div className="form-outline mb-5">
-                <input
-                  type="email"
-                  id="email"
-                  className="form-control border-bottom"
-                  placeholder="Email address"
-                  style={{ border: "none", boxShadow: "none", width: "450px" }}
-                  value={email}
-                  onChange={handleEmail}
-                />
-                <p
-                  id="emailerrormsg"
-                  className="text-danger ms-1"
-                  style={{ display: "none" }}
-                >
-                  {" "}
-                  *This email is exists{" "}
-                </p>
-              </div>
-              <div className="form-outline mb-5">
-                <input
-                  type="text"
-                  id="buyingAddress"
-                  className="form-control border-bottom"
-                  placeholder="Buying address"
-                  style={{ border: "none", boxShadow: "none", width: "450px" }}
-                  value={buyingAddress}
-                  onChange={(e) => setBuyingAddress(e.target.value)}
-                />
-              </div>
-              <div className="form-outline mb-5">
-                <input
-                  type="tel"
-                  id="phoneNumber"
-                  className="form-control border-bottom"
-                  placeholder="Phone number"
-                  style={{ border: "none", boxShadow: "none", width: "450px" }}
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                />
-              </div>
+      {(() => {
+        if (loading) {
+          return (
+            <div className="loading-container">
+              <div className="spinner"></div>
+              <p>Loading...</p>
             </div>
-
-            <div className="col-6">
-              <div className="form-outline mb-5">
-                <input
-                  type="text"
-                  id="lastName"
-                  className="form-control border-bottom"
-                  placeholder="Last name"
-                  style={{ border: "none", boxShadow: "none", width: "450px" }}
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
-              </div>
-              <div className="form-outline mb-5">
-                <input
-                  type="password"
-                  id="password"
-                  className="form-control border-bottom"
-                  placeholder="Password"
-                  style={{ border: "none", boxShadow: "none", width: "450px" }}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-
-              <div className="form-outline mb-5">
-                <label className="form-label">Gender</label>
-                <div>
-                  <input
-                    type="radio"
-                    id="genderMale"
-                    name="gender"
-                    value="M"
-                    checked={gender === "M"}
-                    onChange={handleGenderChange}
-                  />
-                  <label htmlFor="genderMale" className="ms-2">
-                    Male
-                  </label>
-                  <input
-                    type="radio"
-                    id="genderFemale"
-                    name="gender"
-                    value="F"
-                    checked={gender === "F"}
-                    onChange={handleGenderChange}
-                    className="ms-3"
-                  />
-                  <label htmlFor="genderFemale" className="ms-2">
-                    Female
-                  </label>
-                </div>
-              </div>
-
-              <div className="form-outline mb-5">
-                <input
-                  type="text"
-                  id="shippingAddress"
-                  className="form-control border-bottom"
-                  placeholder="Shipping address"
-                  style={{ border: "none", boxShadow: "none", width: "450px" }}
-                  value={shippingAddress}
-                  onChange={(e) => setShippingAddress(e.target.value)}
-                />
-              </div>
-
-              <div className="form-outline mb-5">
-                <input
-                  type="file"
-                  id="avatar"
-                  className="form-control border-bottom"
-                  onChange={handleAvatarChange}
-                  style={{ border: "none", boxShadow: "none", width: "450px" }}
-                />
-                {avatarPreview && (
-                  <div className="mt-3">
-                    <img
-                      src={avatarPreview}
-                      alt="Avatar Preview"
-                      style={{
-                        width: "150px",
-                        height: "150px",
-                        objectFit: "cover",
-                        borderRadius: "50%",
-                      }}
-                    />
+          );
+        } else {
+          return (
+            <div
+              className="container d-flex align-items-center justify-content-center"
+              style={{ height: "900px" }}
+            >
+              <form style={{ width: "80%" }} onSubmit={handleSubmit}>
+                <div className="row">
+                  <div className="col-6">
+                    <div className="form-outline mb-5">
+                      <input
+                        type="text"
+                        id="firstName"
+                        className="form-control border-bottom"
+                        placeholder="First name"
+                        style={{
+                          border: "none",
+                          boxShadow: "none",
+                          width: "450px",
+                        }}
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="form-outline mb-5">
+                      <input
+                        type="text"
+                        id="userName"
+                        className="form-control border-bottom"
+                        placeholder="User name"
+                        style={{
+                          border: "none",
+                          boxShadow: "none",
+                          width: "450px",
+                        }}
+                        value={userName}
+                        onChange={handleUsername}
+                        required
+                      />
+                      <p
+                        id="usernameerrormsg"
+                        className="text-danger ms-1"
+                        style={{ display: "none" }}
+                      >
+                        {" "}
+                        *This username is exists{" "}
+                      </p>
+                    </div>
+                    <div className="form-outline mb-5">
+                      <input
+                        type="email"
+                        id="email"
+                        className="form-control border-bottom"
+                        placeholder="Email address"
+                        style={{
+                          border: "none",
+                          boxShadow: "none",
+                          width: "450px",
+                        }}
+                        value={email}
+                        onChange={handleEmail}
+                        required
+                      />
+                      <p
+                        id="emailerrormsg"
+                        className="text-danger ms-1"
+                        style={{ display: "none" }}
+                      >
+                        {" "}
+                        *This email is exists{" "}
+                      </p>
+                    </div>
+                    <div className="form-outline mb-5">
+                      <input
+                        type="text"
+                        id="buyingAddress"
+                        className="form-control border-bottom"
+                        placeholder="Buying address"
+                        style={{
+                          border: "none",
+                          boxShadow: "none",
+                          width: "450px",
+                        }}
+                        value={buyingAddress}
+                        onChange={(e) => setBuyingAddress(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="form-outline mb-5">
+                      <input
+                        type="tel"
+                        id="phoneNumber"
+                        className="form-control border-bottom"
+                        placeholder="Phone number"
+                        style={{
+                          border: "none",
+                          boxShadow: "none",
+                          width: "450px",
+                        }}
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        required
+                      />
+                    </div>
                   </div>
-                )}
-              </div>
+
+                  <div className="col-6">
+                    <div className="form-outline mb-5">
+                      <input
+                        type="text"
+                        id="lastName"
+                        className="form-control border-bottom"
+                        placeholder="Last name"
+                        style={{
+                          border: "none",
+                          boxShadow: "none",
+                          width: "450px",
+                        }}
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="form-outline mb-5">
+                      <input
+                        type="password"
+                        id="password"
+                        className="form-control border-bottom"
+                        placeholder="Password"
+                        style={{
+                          border: "none",
+                          boxShadow: "none",
+                          width: "450px",
+                        }}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                      />
+                    </div>
+
+                    <div className="form-outline mb-5">
+                      <label className="form-label">Gender</label>
+                      <div>
+                        <input
+                          type="radio"
+                          id="genderMale"
+                          name="gender"
+                          value="M"
+                          checked={gender === "M"}
+                          onChange={handleGenderChange}
+                          required
+                        />
+                        <label htmlFor="genderMale" className="ms-2">
+                          Male
+                        </label>
+                        <input
+                          type="radio"
+                          id="genderFemale"
+                          name="gender"
+                          value="F"
+                          checked={gender === "F"}
+                          onChange={handleGenderChange}
+                          className="ms-3"
+                          required
+                        />
+                        <label htmlFor="genderFemale" className="ms-2">
+                          Female
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="form-outline mb-5">
+                      <input
+                        type="text"
+                        id="shippingAddress"
+                        className="form-control border-bottom"
+                        placeholder="Shipping address"
+                        style={{
+                          border: "none",
+                          boxShadow: "none",
+                          width: "450px",
+                        }}
+                        value={shippingAddress}
+                        onChange={(e) => setShippingAddress(e.target.value)}
+                        required
+                      />
+                    </div>
+
+                    <div className="form-outline mb-5">
+                      <input
+                        type="file"
+                        id="avatar"
+                        className="form-control border-bottom"
+                        onChange={handleAvatarChange}
+                        style={{
+                          border: "none",
+                          boxShadow: "none",
+                          width: "450px",
+                        }}
+                      />
+                      {avatarPreview && (
+                        <div className="mt-3">
+                          <img
+                            src={avatarPreview}
+                            alt="Avatar Preview"
+                            style={{
+                              width: "150px",
+                              height: "150px",
+                              objectFit: "cover",
+                              borderRadius: "50%",
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row mb-4">
+                  <div className="col-6 d-flex justify-content-start">
+                    <div className="form-check">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value=""
+                        id="rememberMe"
+                      />
+                      <label className="form-check-label" htmlFor="rememberMe">
+                        Remember me
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="col-6 d-flex justify-content-end">
+                    <a
+                      href="#!"
+                      className="text-decoration-none"
+                      style={{ color: "#3b71ca" }}
+                    >
+                      Forgot password?
+                    </a>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-block mb-4"
+                  style={{ backgroundColor: "#3b71ca" }}
+                >
+                  Register
+                </button>
+
+                <div className="text-center">
+                  <p>
+                    Already have account?
+                    <Link
+                      to={"/login"}
+                      className="text-decoration-none"
+                      style={{ color: "#3b71ca" }}
+                    >
+                      {" "}
+                      Sign In
+                    </Link>
+                  </p>
+                </div>
+              </form>
             </div>
-          </div>
-
-          <div className="row mb-4">
-            <div className="col-6 d-flex justify-content-start">
-              <div className="form-check">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  value=""
-                  id="rememberMe"
-                />
-                <label className="form-check-label" htmlFor="rememberMe">
-                  Remember me
-                </label>
-              </div>
-            </div>
-
-            <div className="col-6 d-flex justify-content-end">
-              <a
-                href="#!"
-                className="text-decoration-none"
-                style={{ color: "#3b71ca" }}
-              >
-                Forgot password?
-              </a>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            className="btn btn-primary d-block mx-auto btn-block mb-4 w-50 mt-5"
-            style={{ background: "#3b71ca" }}
-          >
-            Sign up
-          </button>
-
-          <div className="text-center">
-            <p>
-              Have any account?
-              <Link
-                to={"/login"}
-                className="text-decoration-none"
-                style={{ color: "#3b71ca" }}
-              >
-                {" "}
-                Sign In
-              </Link>
-            </p>
-          </div>
-        </form>
-      </div>
+          );
+        }
+      })()}
     </div>
   );
 };

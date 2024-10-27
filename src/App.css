@@ -142,29 +142,6 @@
   /* Loại bỏ hiệu ứng shadow */
 }
 
-/* loading */
-.loading-screen {
-  position: fixed;
-  /* Đặt vị trí cố định */
-  top: 0;
-  /* Đặt ở trên cùng */
-  left: 0;
-  /* Đặt ở bên trái */
-  width: 100%;
-  /* Chiều rộng 100% */
-  height: 100%;
-  /* Chiều cao 100% */
-  display: flex;
-  /* Sử dụng flexbox */
-  justify-content: center;
-  /* Căn giữa theo chiều ngang */
-  align-items: center;
-  /* Căn giữa theo chiều dọc */
-  background-color: red;
-  /* Màu nền với độ trong suốt */
-  z-index: 9999;
-  /* Đảm bảo nó nằm trên cùng các phần tử khác */
-}
 
 .line-clamp {
   display: -webkit-box;
@@ -219,10 +196,44 @@
   /* No z-index needed */
 }
 
-.fa-solid.fa-arrow-right{
+.fa-solid.fa-arrow-right {
   font-size: 1.3rem;
 }
 
 .fa-solid.fa-arrow-right:hover {
   color: grey;
+}
+
+/* src/Loading.css */
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  /* Full viewport height */
+  background-color: rgb(245, 245, 250)
+    /* Light gray background */
+}
+
+.spinner {
+  border: 8px solid #f3f3f3;
+  /* Light gray */
+  border-top: 8px solid #3498db;
+  /* Blue */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }

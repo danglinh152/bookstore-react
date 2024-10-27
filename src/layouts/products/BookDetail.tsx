@@ -63,8 +63,9 @@ export function BookDetail() {
 
   if (isLoad) {
     return (
-      <div className="loading-screen">
-        <h1> Loading... </h1>
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Loading...</p>
       </div>
     );
   }

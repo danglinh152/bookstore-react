@@ -22,9 +22,7 @@ const Banner: React.FC = () => {
 
   if (isLoad) {
     return (
-      <div>
-        <h1> Loading... </h1>
-      </div>
+      <div></div>
     );
   }
   if (isError) {
