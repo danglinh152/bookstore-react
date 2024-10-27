@@ -16,7 +16,6 @@ const Register: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [shippingAddress, setShippingAddress] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false);
 
   const navigate = useNavigate(); // Hook để điều hướng
 
@@ -60,14 +59,12 @@ const Register: React.FC = () => {
         // Nếu username đã tồn tại, hiển thị thông báo lỗi
         if (data === true) {
           userErrorMsg.style.display = "block";
-          setError(true);
         } else {
           userErrorMsg.style.display = "none";
         }
       }
     } catch (error) {
       console.error("Error fetching username:", error);
-      setError(true);
     }
   };
 
@@ -92,14 +89,12 @@ const Register: React.FC = () => {
         // Nếu username đã tồn tại, hiển thị thông báo lỗi
         if (data === true) {
           emailErrorMsg.style.display = "block";
-          setError(true);
         } else {
           emailErrorMsg.style.display = "none";
         }
       }
     } catch (error) {
       console.error("Error fetching email:", error);
-      setError(true);
     }
   };
 
@@ -122,7 +117,6 @@ const Register: React.FC = () => {
         avatarBase64 = await convertToBase64(avatar);
       } catch (error) {
         console.error("Error converting avatar to base64:", error);
-        setError(true);
         return;
       }
     }
@@ -156,7 +150,6 @@ const Register: React.FC = () => {
         setTimeout(() => navigate("/login"), 1500);
       } else {
         const errorData = await response.json(); // Get error details
-        setError(true);
         toast.error(
           `Registration failed: ${errorData.message || "Please try again."}`,
           {
@@ -166,7 +159,6 @@ const Register: React.FC = () => {
       }
     } catch (error) {
       console.error("An error occurred while registering the user:", error);
-      setError(true);
       toast.error("An error occurred. Please try again.", {
         autoClose: 2000,
       });

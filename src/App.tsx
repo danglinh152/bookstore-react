@@ -12,6 +12,7 @@ import Rule from "./layouts/rules/Rule";
 import Contact from "./layouts/contacts/Contact";
 import Register from "./layouts/user/Register";
 import ActivateAccount from "./layouts/user/ActivateAccount";
+import { Logout } from "./layouts/user/Logout";
 
 function App() {
   const [keyword, setKeyword] = useState<string>("");
@@ -38,6 +39,8 @@ function App() {
 
           {/* Activation route with two dynamic parameters */}
           <Route path="account/activate" element={<ActivateAccount />} />
+
+          <Route path="logout" element={<Logout />} />
         </Routes>
         <Footer />
       </BrowserRouter>
