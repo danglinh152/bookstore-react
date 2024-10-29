@@ -363,7 +363,7 @@ export function BookDetail() {
                     <BookFeedbacks bookId={book.getBookId()} />
                   </div>
                 </div>
-                <FeedbackSection />
+                <FeedbackSection bookId={book.getBookId()}/>
               </div>
             </div>
           </div>
