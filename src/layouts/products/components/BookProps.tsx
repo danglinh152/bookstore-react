@@ -10,21 +10,72 @@ interface BookProps {
 
 const BookProps: React.FC<BookProps> = ({ book }) => {
   const bookId = book.getBookId();
+  const userid = 3;
 
-  const [ListImage, setListImage] = useState<Image[]>([]);
+  const token = localStorage.getItem("token");
+  const favoriteData = {
+    token,
+    bookId,
+  };
+
+  const [listImage, setListImage] = useState<Image[]>([]);
   const [isLoad, setIsLoad] = useState(true);
   const [isError, setIsError] = useState<string | null>(null);
+  const [favoriteBooks, setFavoriteBooks] = useState<number[]>([]); // State to hold favorite book IDs
+
+  const handleFavorite = async (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const favoriteDesc = document.getElementById(`favorite-desc-${bookId}`);
+    const favoriteBtn = document.getElementById(`favorite-btn-${bookId}`);
+
+    // Similar to the original handleFavorite logic
+    // Add your API call for adding/removing favorites here
+  };
+
   useEffect(() => {
+    const fetchFavorite = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/book/favorite?userid=${userid}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log("data:");
+
+          console.log(responseData);
+
+          setFavoriteBooks([]);
+        }
+
+        // Assuming listOfBook is an array of favorite book IDs
+      } catch (error) {
+        console.error("An error occurred while fetching favorites:", error);
+      } finally {
+        console.log("Request completed");
+      }
+    };
+
+    fetchFavorite();
+
     getAllImages(bookId)
       .then((imageData) => {
         setListImage(imageData);
         setIsLoad(false);
       })
-      .catch((imageData) => {
-        const error = new Error("Error");
-        setIsError(error.message);
+      .catch((error) => {
+        setIsError(error.message); // Handle error properly
+        setIsLoad(false);
       });
-  }, []);
+  }, [bookId]); // Include bookId as a dependency
+
+  // Check if the current book is a favorite
+  const isFavorite = favoriteBooks.includes(bookId);
 
   if (isLoad) {
     return (
@@ -34,10 +85,11 @@ const BookProps: React.FC<BookProps> = ({ book }) => {
       </div>
     );
   }
+
   if (isError) {
     return (
       <div>
-        <h1> Báo lỗi: ${isError} </h1>
+        <h1>Error: {isError}</h1>
       </div>
     );
   }
@@ -45,10 +97,10 @@ const BookProps: React.FC<BookProps> = ({ book }) => {
   return (
     <div className="card mb-5 p-0 w-100" style={{ height: "480px" }}>
       <Link to={`/book-detail/${book.getBookId()}`}>
-        {ListImage && ListImage.length > 0 ? (
+        {listImage.length > 0 ? (
           <img
             className="card-img-top w-100 object-fit-cover"
-            src={ListImage[0].getData()}
+            src={listImage[0].getData()}
             alt="Card image"
             style={{ height: "250px" }}
           />
@@ -86,11 +138,18 @@ const BookProps: React.FC<BookProps> = ({ book }) => {
         <div className="d-flex gap-4">
           <a className="btn btn-primary">
             <i className="fa-solid fa-cart-shopping"></i>
-            <span className="ms-1">Thêm vào giỏ</span>
+            <span className="ms-1">Add to Cart</span>
           </a>
-          <a className="btn btn-danger">
+          <a
+            className="btn btn-primary"
+            id={`favorite-btn-${bookId}`}
+            onClick={handleFavorite}
+            style={{ backgroundColor: isFavorite ? "red" : "blue" }} // Change color based on favorite status
+          >
             <i className="fa-solid fa-heart"></i>
-            <span className="ms-1">Yêu thích</span>
+            <span className="ms-1" id={`favorite-desc-${bookId}`}>
+              {isFavorite ? "Favorited" : "Favorite"}
+            </span>
           </a>
         </div>
       </div>

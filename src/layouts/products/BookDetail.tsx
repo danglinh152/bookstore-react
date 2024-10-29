@@ -36,6 +36,23 @@ export function BookDetail() {
     setCurrentPage(page);
   };
 
+  const handleFavorite = (event: React.MouseEvent<HTMLSpanElement>) => {
+    const favoriteDesc = document.getElementById(`favorite-desc-${bookId}`);
+    const favoriteBtn = document.getElementById(`favorite-btn-${bookId}`);
+    if (favoriteDesc?.textContent === "Yêu thích" && favoriteBtn !== null) {
+      favoriteDesc.textContent = "Đã yêu thích";
+      favoriteBtn.style.backgroundColor = "red";
+      // Call API to add to favorites
+    } else if (
+      favoriteDesc?.textContent === "Đã yêu thích" &&
+      favoriteBtn !== null
+    ) {
+      favoriteDesc.textContent = "Yêu thích";
+      favoriteBtn.style.backgroundColor = "blue";
+      // Call API to remove from favorites
+    }
+  };
+
   useEffect(() => {
     getAllBooks(currentPage)
       .then((bookData) => {
@@ -250,9 +267,19 @@ export function BookDetail() {
                     <p className=" fs-5 fw-bold">{book?.getSellingPrice()}$</p>
                   </div>
                   <div className="d-flex gap-4">
-                    <a className="btn btn-danger">
+                    <a
+                      className="btn btn-primary"
+                      id={`favorite-btn-${bookId}`}
+                      onClick={handleFavorite}
+                    >
                       <i className="fa-solid fa-heart"></i>
-                      <span className="ms-1">Yêu thích</span>
+                      <span
+                        className="ms-1"
+                        id={`favorite-desc-${bookId}`}
+                        // Set event handler correctly
+                      >
+                        Yêu thích
+                      </span>
                     </a>
                   </div>
                 </div>
@@ -363,7 +390,7 @@ export function BookDetail() {
                     <BookFeedbacks bookId={book.getBookId()} />
                   </div>
                 </div>
-                <FeedbackSection bookId={book.getBookId()}/>
+                <FeedbackSection bookId={book.getBookId()} />
               </div>
             </div>
           </div>
