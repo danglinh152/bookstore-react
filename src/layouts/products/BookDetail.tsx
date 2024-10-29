@@ -7,6 +7,18 @@ import { PaginationRecommend } from "../utils/PaginationRecommend";
 import BookImages from "./components/BookImages";
 import BookFeedbacks from "./components/BookFeedbacks";
 import FeedbackSection from "./components/FeedbackSection";
+import { jwtDecode } from "jwt-decode";
+
+interface FavoriteBook {
+  bookId: number;
+}
+
+interface UserData {
+  avatar?: string; // Use optional chaining if the property might not exist
+  name?: string;
+  userid?: number;
+  // Add other properties as needed
+}
 
 export function BookDetail() {
   const bookParam = useParams<{ bookId: string }>();
@@ -32,28 +44,103 @@ export function BookDetail() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalBooks, setTotalBooks] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
+
+  const [favoriteBooks, setFavoriteBooks] = useState<FavoriteBook[]>([]);
+  const token: string | null = localStorage.getItem("token");
+  const [userData, setUserData] = useState<UserData | null>(null);
   const pagination = (page: number) => {
     setCurrentPage(page);
   };
 
-  const handleFavorite = (event: React.MouseEvent<HTMLSpanElement>) => {
+  const handleFavorite = async (event: React.MouseEvent<HTMLSpanElement>) => {
     const favoriteDesc = document.getElementById(`favorite-desc-${bookId}`);
     const favoriteBtn = document.getElementById(`favorite-btn-${bookId}`);
-    if (favoriteDesc?.textContent === "Yêu thích" && favoriteBtn !== null) {
-      favoriteDesc.textContent = "Đã yêu thích";
-      favoriteBtn.style.backgroundColor = "red";
-      // Call API to add to favorites
-    } else if (
-      favoriteDesc?.textContent === "Đã yêu thích" &&
-      favoriteBtn !== null
-    ) {
-      favoriteDesc.textContent = "Yêu thích";
-      favoriteBtn.style.backgroundColor = "blue";
-      // Call API to remove from favorites
+    const favoriteData = {
+      token,
+      bookId,
+    };
+    if (favoriteDesc?.textContent === "Yêu thích" && favoriteBtn) {
+      try {
+        const response = await fetch("http://localhost:8080/book/favorite", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(favoriteData),
+        });
+
+        if (response.ok) {
+          favoriteDesc.textContent = "Đã yêu thích";
+          favoriteBtn.style.backgroundColor = "red";
+        } else {
+          const errorData = await response.json();
+          console.error("Error adding to favorites:", errorData);
+        }
+      } catch (error) {
+        console.error("An error occurred while adding to favorites:", error);
+      }
+    } else if (favoriteDesc?.textContent === "Đã yêu thích" && favoriteBtn) {
+      try {
+        const response = await fetch("http://localhost:8080/book/favorite", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(favoriteData),
+        });
+
+        if (response.ok) {
+          favoriteDesc.textContent = "Yêu thích";
+          favoriteBtn.style.backgroundColor = "blue";
+        } else {
+          const errorData = await response.json();
+          console.error("Error removing from favorites:", errorData);
+        }
+      } catch (error) {
+        console.error(
+          "An error occurred while removing from favorites:",
+          error
+        );
+      }
     }
   };
+  const isFavorite = favoriteBooks.some(
+    (favorite) => favorite.bookId === bookId
+  );
 
   useEffect(() => {
+    if (token) {
+      const user: UserData = jwtDecode(token);
+      setUserData(user);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    const fetchFavorite = async () => {
+      if (userData?.userid) {
+        try {
+          const response = await fetch(
+            `http://localhost:8080/book/favorite?userid=${userData.userid}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+
+          if (response.ok) {
+            const responseData = await response.json();
+            setFavoriteBooks(responseData.favoriteBooks);
+          }
+        } catch (error) {
+          console.error("An error occurred while fetching favorites:", error);
+        }
+      }
+    };
+
+    fetchFavorite();
+
     getAllBooks(currentPage)
       .then((bookData) => {
         setListBook(bookData.result);
@@ -76,7 +163,7 @@ export function BookDetail() {
         console.log(error.message);
         setIsError(error.message);
       });
-  }, [bookId, currentPage]);
+  }, [bookId, currentPage, userData]);
 
   if (isLoad) {
     return (
@@ -271,14 +358,11 @@ export function BookDetail() {
                       className="btn btn-primary"
                       id={`favorite-btn-${bookId}`}
                       onClick={handleFavorite}
+                      style={{ backgroundColor: isFavorite ? "red" : "blue" }} // Change color based on favorite status
                     >
                       <i className="fa-solid fa-heart"></i>
-                      <span
-                        className="ms-1"
-                        id={`favorite-desc-${bookId}`}
-                        // Set event handler correctly
-                      >
-                        Yêu thích
+                      <span className="ms-1" id={`favorite-desc-${bookId}`}>
+                        {isFavorite ? "Đã yêu thích" : "Yêu thích"}
                       </span>
                     </a>
                   </div>
