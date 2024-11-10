@@ -1,10 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-interface Navbar {
-  keyword: string;
-  setKeyword: (keyword: string) => void;
-}
+import { Link } from "react-router-dom";
 
 interface UserData {
   avatar?: string; // Use optional chaining if the property might not exist
@@ -12,27 +8,16 @@ interface UserData {
   // Add other properties as needed
 }
 
-const Navbar: React.FC<Navbar> = ({ keyword, setKeyword }) => {
+const NavbarAdmin: React.FC = () => {
   const token: string | null = localStorage.getItem("token");
-  const navigate = useNavigate();
   const [userData, setUserData] = useState<UserData | null>(null);
-  const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
-  };
-
-  const handleClick = () => {
-    setKeyword(keyword);
-  };
 
   useEffect(() => {
     if (token) {
       const user: UserData = jwtDecode(token);
       setUserData(user);
-    } 
-    // else {
-    //   navigate("/login"); 
-    // xu ly token het han
-    // }
+      console.log(user);
+    }
   }, []);
 
   return (
@@ -65,20 +50,23 @@ const Navbar: React.FC<Navbar> = ({ keyword, setKeyword }) => {
                       id="navbarDropdown1"
                       href="#"
                     >
-                      Thể Loại
+                      Vận Hành
                     </a>
                     <ul
                       className="dropdown-menu dropdown-menu-start mt-0"
                       aria-labelledby="navbarDropdown1"
                     >
-                      <Link to={"/1"} className="dropdown-item">
-                        Thể Loại 1
+                      <Link to={"/admin/book-manage"} className="dropdown-item">
+                        Quản Lý Sản Phẩm
                       </Link>
-                      <Link to={"/2"} className="dropdown-item">
-                        Thể Loại 2
+                      <Link
+                        to={"/admin/order-manage"}
+                        className="dropdown-item"
+                      >
+                        Quản Lý Đơn Hàng
                       </Link>
-                      <Link to={"/3"} className="dropdown-item">
-                        Thể Loại 3
+                      <Link to={"/"} className="dropdown-item">
+                        xxxx
                       </Link>
                     </ul>
                   </li>
@@ -89,58 +77,30 @@ const Navbar: React.FC<Navbar> = ({ keyword, setKeyword }) => {
                       id="navbarDropdown2"
                       href="#"
                     >
-                      Quy Định Bán Hàng
+                      Quản Lý Quy Định
                     </a>
                     <ul
                       className="dropdown-menu dropdown-menu-start mt-0"
                       aria-labelledby="navbarDropdown2"
                     >
-                      <Link to={"/rule/1"} className="dropdown-item">
+                      <Link to={"/admin/rule/1"} className="dropdown-item">
                         Quy Định 1
                       </Link>
-                      <Link to={"/rule/2"} className="dropdown-item">
+                      <Link to={"/admin/rule/2"} className="dropdown-item">
                         Quy Định 2
                       </Link>
-                      <Link to={"/rule/3"} className="dropdown-item">
+                      <Link to={"/admin/rule/3"} className="dropdown-item">
                         Quy Định 3
                       </Link>
                     </ul>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to={"/contact"}>
+                    <Link className="nav-link" to={"/admin/contact"}>
                       Liên Hệ
                     </Link>
                   </li>
                 </ul>
                 <div className="search-box d-block d-lg-flex ms-3 me-3 ms-lg-auto">
-                  <form className="d-flex form-group">
-                    <input
-                      type="text"
-                      name=""
-                      id=""
-                      className="form-control me-2"
-                      placeholder="Tìm Kiếm"
-                      onInput={handleInput}
-                      value={keyword}
-                    />
-                    <button
-                      type="button"
-                      className="btn btn-outline-success"
-                      typeof="submit"
-                      onClick={handleClick}
-                    >
-                      Search
-                    </button>
-                  </form>
-
-                  <ul className="navbar-nav mb-2 mb-lg-0 ms-2 me-2 d-none d-lg-block">
-                    <li className="nav-item">
-                      <a className="nav-link">
-                        <i className="fa-solid fa-cart-shopping"></i>
-                      </a>
-                    </li>
-                  </ul>
-
                   <ul className="navbar-nav mb-2 mb-lg-0 me-2 d-none d-lg-block">
                     <li className="nav-item dropdown">
                       <a
@@ -212,15 +172,15 @@ const Navbar: React.FC<Navbar> = ({ keyword, setKeyword }) => {
                         id="navbarDropdown1"
                         href="#"
                       >
-                        Thể Loại
+                        Vận Hành
                       </a>
                       <ul
                         className="dropdown-menu dropdown-menu-start mt-0"
                         aria-labelledby="navbarDropdown1"
                       >
-                        <li className="dropdown-item">Thể Loại 1</li>
-                        <li className="dropdown-item">Thể Loại 2</li>
-                        <li className="dropdown-item">Thể Loại 3</li>
+                        <li className="dropdown-item">Quản Lý Sản Phẩm</li>
+                        <li className="dropdown-item">Quản Lý Đơn Hàng</li>
+                        <li className="dropdown-item">xxx</li>
                       </ul>
                     </li>
                     <li className="nav-item dropdown">
@@ -230,7 +190,7 @@ const Navbar: React.FC<Navbar> = ({ keyword, setKeyword }) => {
                         id="navbarDropdown2"
                         href="#"
                       >
-                        Quy Định Bán Hàng
+                        Quản Lý Quy Định
                       </a>
                       <ul
                         className="dropdown-menu dropdown-menu-start mt-0"
@@ -320,20 +280,23 @@ const Navbar: React.FC<Navbar> = ({ keyword, setKeyword }) => {
                       id="navbarDropdown1"
                       href="#"
                     >
-                      Thể Loại
+                      Vận Hành
                     </a>
                     <ul
                       className="dropdown-menu dropdown-menu-start mt-0"
                       aria-labelledby="navbarDropdown1"
                     >
-                      <Link to={"/1"} className="dropdown-item">
-                        Thể Loại 1
+                      <Link to={"/admin/book-manage"} className="dropdown-item">
+                        Quản Lý Sản Phẩm
                       </Link>
-                      <Link to={"/2"} className="dropdown-item">
-                        Thể Loại 2
+                      <Link
+                        to={"/admin/order-manage"}
+                        className="dropdown-item"
+                      >
+                        Quản Lý Đơn Hàng
                       </Link>
-                      <Link to={"/3"} className="dropdown-item">
-                        Thể Loại 3
+                      <Link to={"/"} className="dropdown-item">
+                        xxxx
                       </Link>
                     </ul>
                   </li>
@@ -344,78 +307,39 @@ const Navbar: React.FC<Navbar> = ({ keyword, setKeyword }) => {
                       id="navbarDropdown2"
                       href="#"
                     >
-                      Quy Định Bán Hàng
+                      Quản Lý Quy Định
                     </a>
                     <ul
                       className="dropdown-menu dropdown-menu-start mt-0"
                       aria-labelledby="navbarDropdown2"
                     >
-                      <Link to={"/rule/1"} className="dropdown-item">
+                      <Link to={"/admin/rule/1"} className="dropdown-item">
                         Quy Định 1
                       </Link>
-                      <Link to={"/rule/2"} className="dropdown-item">
+                      <Link to={"/admin/rule/2"} className="dropdown-item">
                         Quy Định 2
                       </Link>
-                      <Link to={"/rule/3"} className="dropdown-item">
+                      <Link to={"/admin/rule/3"} className="dropdown-item">
                         Quy Định 3
                       </Link>
                     </ul>
                   </li>
                   <li className="nav-item">
-                    <Link className="nav-link" to={"/contact"}>
+                    <Link className="nav-link" to={"/admin/contact"}>
                       Liên Hệ
                     </Link>
                   </li>
                 </ul>
-                <div className="search-box d-block d-lg-flex ms-3 me-3 ms-lg-auto align-items-center">
-                  <form className="d-flex form-group">
-                    <input
-                      type="text"
-                      name=""
-                      id=""
-                      className="form-control me-2"
-                      placeholder="Tìm Kiếm"
-                      onInput={handleInput}
-                      value={keyword}
-                      style={{ maxHeight: "40px" }}
-                    />
-                    <button
-                      type="button"
-                      className="btn btn-outline-success"
-                      typeof="submit"
-                      onClick={handleClick}
-                      style={{ maxHeight: "40px" }}
-                    >
-                      Search
-                    </button>
-                  </form>
-
-                  <ul className="navbar-nav mb-2 mb-lg-0 ms-2 me-2 d-none d-lg-block">
-                    <li className=" nav-item">
-                      <a className="nav-link">
-                        <i className=" fa-solid fa-cart-shopping"></i>
-                      </a>
-                    </li>
-                  </ul>
-
-                  <ul className="navbar-nav mb-sm-2  me-2 d-none d-lg-block">
+                <div className="search-box d-block d-lg-flex ms-3 me-3 ms-lg-auto">
+                  <ul className="navbar-nav mb-2 mb-lg-0 me-2 d-none d-lg-block">
                     <li className="nav-item dropdown">
                       <a
-                        className="nav-link p-0"
+                        className="nav-link dropdown-toggle"
                         data-bs-toggle="dropdown"
                         id="navbarDropdown3"
                         href="#"
                       >
-                        <img
-                          src={userData?.avatar || "default-img.jpg"}
-                          alt=""
-                          className="border-0 rounded-circle"
-                          style={{
-                            objectFit: "cover",
-                            width: "40px",
-                            height: "40px",
-                          }}
-                        />
+                        <i className="fa-solid fa-user"></i>
                       </a>
 
                       <ul
@@ -479,15 +403,15 @@ const Navbar: React.FC<Navbar> = ({ keyword, setKeyword }) => {
                         id="navbarDropdown1"
                         href="#"
                       >
-                        Thể Loại
+                        Vận Hành
                       </a>
                       <ul
                         className="dropdown-menu dropdown-menu-start mt-0"
                         aria-labelledby="navbarDropdown1"
                       >
-                        <li className="dropdown-item">Thể Loại 1</li>
-                        <li className="dropdown-item">Thể Loại 2</li>
-                        <li className="dropdown-item">Thể Loại 3</li>
+                        <li className="dropdown-item">Quản Lý Sản Phẩm</li>
+                        <li className="dropdown-item">Quản Lý Đơn Hàng</li>
+                        <li className="dropdown-item">xxx</li>
                       </ul>
                     </li>
                     <li className="nav-item dropdown">
@@ -566,5 +490,4 @@ const Navbar: React.FC<Navbar> = ({ keyword, setKeyword }) => {
   );
 };
 
-export default Navbar;
-
+export default NavbarAdmin;
