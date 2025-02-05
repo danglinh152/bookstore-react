@@ -19,7 +19,7 @@ const Login: React.FC = () => {
     };
 
     try {
-      fetch("http://localhost:8080/account/login", {
+      fetch("http://localhost:8080/login", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -37,7 +37,9 @@ const Login: React.FC = () => {
           }
         })
         .then((data) => {
-          localStorage.setItem("token", data.jwt);
+          // console.log(data);
+
+          localStorage.setItem("token", data.data.access_token);
           setTimeout(() => {
             navigate("/");
             window.location.reload();

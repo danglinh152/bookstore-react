@@ -18,52 +18,30 @@ import NavbarAdmin from "./layouts/header-footer/NavbarAdmin";
 
 function App() {
   const [keyword, setKeyword] = useState<string>("");
-  const [userRole, setUserRole] = useState<string>("admin"); // Set default role
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-  });
+  // const [userRole, setUserRole] = useState<string>("");
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  // });
 
   return (
     <BrowserRouter>
-      {userRole === "admin" ? (
-        <div style={{ background: "#e0e0e0" }}>
-          <NavbarAdmin />
-          <Routes>
-            <Route path="/" element={<AdminPanel />} />
-            <Route path=":genreId" element={<Homepage keyword={keyword} />} />
-            <Route path="book-detail/:bookId" element={<BookDetail />} />
-            <Route path="about" element={<About />} />
-            <Route path="login" element={<Login />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="register" element={<Register />} />
-            <Route path="rule/:ruleNum" element={<Rule />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="account/activate" element={<ActivateAccount />} />
-            <Route path="logout" element={<Logout />} />
-          </Routes>
-          <Footer />
-        </div>
-      ) : (
-        <div style={{ background: "#f5f5fa" }}>
-          {" "}
-          {/* Customer specific styling */}
-          <Navbar keyword={keyword} setKeyword={setKeyword} />
-          <Routes>
-            <Route path="/" element={<Homepage keyword={keyword} />} />
-            <Route path=":genreId" element={<Homepage keyword={keyword} />} />
-            <Route path="book-detail/:bookId" element={<BookDetail />} />
-            <Route path="about" element={<About />} />
-            <Route path="login" element={<Login />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="register" element={<Register />} />
-            <Route path="rule/:ruleNum" element={<Rule />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="account/activate" element={<ActivateAccount />} />
-            <Route path="logout" element={<Logout />} />
-          </Routes>
-          <Footer />
-        </div>
-      )}
+      <div style={{ background: "#f5f5fa" }}>
+        <Navbar keyword={keyword} setKeyword={setKeyword} />
+        <Routes>
+          <Route path="/" element={<Homepage keyword={keyword} />} />
+          <Route path=":genreId" element={<Homepage keyword={keyword} />} />
+          <Route path="book-detail/:bookId" element={<BookDetail />} />
+          <Route path="about" element={<About />} />
+          <Route path="login" element={<Login />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="register" element={<Register />} />
+          <Route path="rule/:ruleNum" element={<Rule />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="account/activate" element={<ActivateAccount />} />
+          <Route path="logout" element={<Logout />} />
+        </Routes>
+        <Footer />
+      </div>
     </BrowserRouter>
   );
 }
