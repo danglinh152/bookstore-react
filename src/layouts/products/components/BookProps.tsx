@@ -40,7 +40,7 @@ const BookProps: React.FC<BookProps> = ({ book }) => {
 
     if (favoriteDesc?.textContent === "Yêu thích" && favoriteBtn) {
       try {
-        const response = await fetch("http://localhost:8080/book/favorite", {
+        const response = await fetch("http://localhost:8080/api/book/favorite", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -60,7 +60,7 @@ const BookProps: React.FC<BookProps> = ({ book }) => {
       }
     } else if (favoriteDesc?.textContent === "Đã yêu thích" && favoriteBtn) {
       try {
-        const response = await fetch("http://localhost:8080/book/favorite", {
+        const response = await fetch("http://localhost:8080/api/book/favorite", {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -96,7 +96,7 @@ const BookProps: React.FC<BookProps> = ({ book }) => {
       if (userData?.userid) {
         try {
           const response = await fetch(
-            `http://localhost:8080/book/favorite?userid=${userData.userid}`,
+            `http://localhost:8080/api/book/favorite?userid=${userData.userid}`,
             {
               method: "GET",
               headers: {

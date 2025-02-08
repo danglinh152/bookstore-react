@@ -21,7 +21,7 @@ const AdminPanel: React.FC = () => {
       return;
     }
 
-    fetch("http://localhost:8080/book/add-book", {
+    fetch("http://localhost:8080/api/book/add-book", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

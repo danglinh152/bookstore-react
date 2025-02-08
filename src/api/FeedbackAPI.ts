@@ -21,7 +21,7 @@ export async function getFeedbacks(
 }
 
 export async function getAllFeedbacks(bookId: number): Promise<Feedback[]> {
-  const urlFeedback: string = `http://localhost:8080/books/${bookId}/listOfFeedback`;
+  const urlFeedback: string = `http://localhost:8080/api/books/${bookId}/listOfFeedback`;
 
   return getFeedbacks(urlFeedback);
 }

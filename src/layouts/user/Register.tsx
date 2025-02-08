@@ -44,7 +44,7 @@ const Register: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/users/search/existsByUsername?username=${newUsername}`
+        `http://localhost:8080/api/users/search/existsByUsername?username=${newUsername}`
       );
 
       if (!response.ok) {
@@ -74,7 +74,7 @@ const Register: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/users/search/existsByEmail?email=${newEmail}`
+        `http://localhost:8080/api/users/search/existsByEmail?email=${newEmail}`
       );
 
       if (!response.ok) {
@@ -135,7 +135,7 @@ const Register: React.FC = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/account/register", {
+      const response = await fetch("http://localhost:8080/api/account/register", {
         method: "POST",
         headers: {
           "Content-type": "application/json",

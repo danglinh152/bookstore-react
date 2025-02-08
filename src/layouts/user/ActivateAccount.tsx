@@ -19,7 +19,7 @@ const ActivateAccount: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/account/activate?email=${email}&activateCode=${activateCode}`
+        `http://localhost:8080/api/account/activate?email=${email}&activateCode=${activateCode}`
       );
       if (response.ok) {
         setStatus("Account activated successfully!");

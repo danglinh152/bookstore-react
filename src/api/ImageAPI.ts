@@ -22,7 +22,7 @@ export async function getImages(bookId: number, url: string): Promise<Image[]> {
 export async function getAllImages(bookId: number): Promise<Image[]> {
 
 
-    const url: string = `http://localhost:8080/books/${bookId}/listOfImage`;
+    const url: string = `http://localhost:8080/api/books/${bookId}/listOfImage`;
 
     return getImages(bookId, url);
 }
@@ -30,7 +30,7 @@ export async function getAllImages(bookId: number): Promise<Image[]> {
 export async function get1Images(bookId: number): Promise<Image[]> {
 
 
-    const url: string = `http://localhost:8080/books/${bookId}/listOfImage?sort=bookId,asc&page=0&size=1`;
+    const url: string = `http://localhost:8080/api/books/${bookId}/listOfImage?sort=bookId,asc&page=0&size=1`;
 
     return getImages(bookId, url);
 }

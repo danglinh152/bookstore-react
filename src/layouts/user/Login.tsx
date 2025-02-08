@@ -19,7 +19,7 @@ const Login: React.FC = () => {
     };
 
     try {
-      fetch("http://localhost:8080/login", {
+      fetch("http://localhost:8080/sign-in", {
         method: "POST",
         headers: {
           "Content-type": "application/json",

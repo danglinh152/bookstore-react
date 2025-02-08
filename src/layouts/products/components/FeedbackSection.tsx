@@ -27,7 +27,7 @@ const FeedbackSection: React.FC<BookFeedbackInterface> = ({ bookId }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/book/feedback/givefeedback`,
+        `http://localhost:8080/api/book/feedback/givefeedback`,
         {
           method: "POST",
           headers: {

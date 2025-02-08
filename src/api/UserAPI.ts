@@ -22,7 +22,7 @@ export async function getUser(url: string): Promise<User> {
 }
 
 export async function getUserFromFeedback(feedbackId: number): Promise<User> {
-  const url: string = `http://localhost:8080/feedbacks/${feedbackId}/user`;
+  const url: string = `http://localhost:8080/api/feedbacks/${feedbackId}/user`;
 
   return getUser(url);
 }
